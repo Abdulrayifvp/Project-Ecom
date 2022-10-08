@@ -1,0 +1,39 @@
+<%- include('./includes/header') %>
+<%- include('./includes/navigation') %>
+
+<main>
+
+    <!-- login Area Strat-->
+    <section class="login-area pt-100 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="basic-login">
+                        <h3 class="text-center mb-60">Register</h3>
+                        <form action="/signup" method="post">
+                            <label for="name">Username <span>**</span></label>
+                            <input name="userName" id="name" type="text" placeholder="Enter Username" />
+                            <label for="email-id">Email Address <span>**</span></label>
+                            <input name="email" id="email-id" type="text" placeholder="Email address..." />
+                            <label for="phone">Phone Number <span>**</span></label>
+                            <input name="phone" id="phone" type="text" placeholder="Phone number..." />
+                            <label for="pass">Password <span>**</span></label>
+                            <input name="password" id="pass" type="password" placeholder="Enter password..." />
+                            <label for="pass">Confirm Password <span>**</span></label>
+                            <input name="confirmPassword" id="pass" type="password" placeholder="Re-Enter password..." />
+                            <div class="mt-10"></div>
+                            <button type="submit" class="os-btn w-100">Register Now</button>
+                            <div class="or-divide"><span>or</span></div>
+                            <a href="login.html" class="os-btn os-btn-black w-100">login Now</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- login Area End-->
+</main>
+
+
+
+<%- include('./includes/footer.ejs') %>
