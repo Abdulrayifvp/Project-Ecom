@@ -1,0 +1,135 @@
+<%- include('includes/header') %> <%- include('includes/nav') %>
+
+<main>
+  <div class="container">
+    <div class="page-title-container">
+      <div class="row g-0">
+        <div class="col-auto mb-3 mb-md-0 me-auto">
+          <div class="w-auto sw-md-30">
+            <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
+              <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+              <span class="text-small align-middle">Products</span>
+            </a>
+            <h1 class="mb-0 pb-0 display-4" id="title">Product Detail</h1>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="container">
+      <form action="/admin/addProducts" method="post" enctype="multipart/form-data">
+        <!-- <div class="col me-4 col-md-auto d-flex align-items-end justify-content-end">
+          <div class="btn-group ms-1 w-100 w-md-auto">
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-icon btn-icon-start w-100"
+            >
+              <i data-acorn-icon="save"></i>
+              <span>Save</span>
+            </button>
+          </div>
+        </div> -->
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Product Name</label
+              >
+              <input
+                name="productName"
+                type="text"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder=""
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label"
+                >Description</label
+              >
+              <textarea
+                name="productDescription"
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="10"
+              ></textarea>
+            </div>
+          </div>
+          <div class="row col-6">
+            <div class="col-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Cost Prize</label
+              >
+              <input
+                name="costPrize"
+                type="number"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder=""
+              />
+            </div>
+            <div class="col-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Selling Prize</label
+              >
+              <input
+                name="sellingPrize"
+                type="number"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder=""
+              />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Category</label>
+              <select name="category" class="form-control select-single-no-search">
+                <option value="" selected>Category</option>
+                <% for (Category of Categories){ %>
+                <option value="<%=Category.Name%>"><%=Category.Name%></option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-6">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Quantity</label
+              >
+              <input
+                name="quantity"
+                type="number"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder=""
+              />
+            </div>
+            <div class="row">
+              <div class="col-6 mb-3">
+                <label for="formFile" class="form-label">Select Image</label>
+                <input name="img" class="form-control" type="file" id="formFile" multiple>
+              </div>
+              <div class="col-3 ms-3 mb-3">
+                <label for="exampleColorInput" class="form-label">Color picker</label>
+                <input name="colour" type="color" class="form-control form-control-color" id="exampleColorInput" >
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="col me-4 col-md-auto d-flex align-items-end justify-content-end">
+          <div class="btn-group ms-1 w-100 w-md-auto">
+            <button
+              type="submit"
+              class="btn btn-outline-primary btn-icon btn-icon-start w-100"
+            >
+              <i data-acorn-icon="save"></i>
+              <span>Save</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+<%- include('includes/footer') %>

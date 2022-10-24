@@ -1,0 +1,84 @@
+<%- include('./includes/header') %> <%- include('./includes/navigation') %>
+
+<section class="cart_area mt-5">
+  <div class="container">
+    <h2>Order Summary</h2>
+    <div class="row mt-5">
+      <div class="col-6">
+        <p>Date : <%=Order.Date%></p>
+        <p>Time : <%=Order.Time%></p>
+        <p>Order ID : <%=Order._id%></p>
+        <p>Order Status : <%=Order.orderStatus%></p>
+        <p>Payment Method : <%=Order.Address.paymentMethod%></p>
+      </div>
+      <div class="col-6">
+        <h6 class="mb-3">Delivery Address</h6>
+        <p><%=Order.Address.firstName%> <%=Order.Address.lastName%></p>
+        <p>
+          <%=Order.Address.houseName%>, <%=Order.Address.address%>,
+          <%=Order.Address.city%>
+        </p>
+        <p>
+          <%=Order.Address.district%>, <%=Order.Address.state%>,
+          <%=Order.Address.country%>
+        </p>
+        <p><%=Order.Address.pincode%></p>
+      </div>
+    </div>
+    <div class="cart_inner">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for (Product of Order.Products) { %>
+          <tr>
+            <td>
+              <div class="media">
+                <div class="d-flex">
+                  <img
+                    height="100px"
+                    width="100px"
+                    src="../productImages/<%=Product.Images[0]%>"
+                    alt=""
+                  />
+                </div>
+                <div class="media-body">
+                  <p><%=Product.ProductName%></p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <h5>Rs.<span><%=Product.Price%></span></h5>
+            </td>
+            <td>
+                <p><%=Product.Quantity%></p>
+            </td>
+            <td>
+              <a
+                href="/viewProduct/?id=<%=Product.ProductId%>"
+                class="genric-btn primary medium text-dark"
+                >View</a
+              >
+            </td>
+          </tr>
+          <tr></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+</div>
+<hr>
+<div class="col-12">
+    <h2 class=" float-right">Total Amount :Rs.<%=Order.Subtotal%></h2>
+</div>
+  </div>
+</section>
+
+<%- include('./includes/footer') %>

@@ -1,40 +1,56 @@
-<%- include('../includes/header.ejs') %>
-<%- include('../includes/navigation.ejs') %>
+<%- include('./includes/header.ejs') %>
+<%- include('./includes/navigation.ejs') %>
 
-
-   
-
-    <!-- login Area Strat-->
-    <section class="login-area pt-100 pb-100">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 offset-lg-2">
-                    <div class="basic-login">
-                        <h3 class="text-center mb-60">Login</h3>
-                        <form action="/login" method="post">
-                            <label for="name">Email Address <span>**</span></label>
-                            <input name="email" id="name" type="text" placeholder="Email address..." />
-                            <label for="pass">Password <span>**</span></label>
-                            <input name="password" id="pass" type="password" placeholder="Enter password..." />
-                            <div class="login-action mb-20 fix">
-                                <span class="log-rem f-left">
-                                    <input id="remember" type="checkbox" />
-                                    <label for="remember">Remember me!</label>
-                                </span>
-                                <span class="forgot-login f-right">
-                                    <a href="#">Lost your password?</a>
-                                </span>
+<!--================Login Box Area =================-->
+<section class="login_box_area section_gap ">
+    <div class="container align-middle">
+        <div class="row d-flex justify-content-center">
+            
+            <div style="margin-top: 50px;" class="col-lg-6 justify-content-center">
+                <div class="login_form_inner">
+                    <h3>Log in to enter</h3>
+                    <h6 class="text-danger"><%= errMsg %></h6>
+                    <form class="row login_form" action="/login" method="post" id="contactForm" novalidate="novalidate">
+                        
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+                            <span class="float-right text-danger" id="emailErr"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="pass" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                            <span class="float-right text-danger" id="passErr"></span>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                <input type="checkbox" id="f-option2" name="selector">
+                                <label for="f-option2">Keep me logged in</label>
                             </div>
-                            <button type="submit" class="os-btn w-100">Login Now</button>
-                            <div class="or-divide"><span>or</span></div>
-                            <a href="register.html" class="os-btn os-btn-black w-100">Register Now</a>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" onclick="fieldvalidation()" class="primary-btn">Log In</button>
+                            <div class="row d-flex justify-content-between m-4" >
+                                <a href="#">Forgot Password?</a>
+                                <a href="/signup">Create an account ?</a>
+                            </div>
+                            
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- login Area End-->
-</main>
+    </div>
+</section>
 
-    <%- include('../includes/footer.ejs') %>
+<script>
+    function fieldvalidation() {
+        if (document.getElementById('pass').value == "") {
+            document.getElementById('passErr').innerHTML="required"
+        }
+        if(document.getElementById('email').value ==""){
+            document.getElementById('emailErr').innerHTML='required'
+        }
+         
+    }
+</script>
+    <%- include('./includes/footer.ejs') %>

@@ -1,0 +1,55 @@
+<%- include('./includes/header') %>
+<%- include('./includes/navigation') %>
+
+<section class="cart_area mt-5">
+    <div class="container">
+        <h2>My Orders</h2>
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <% if(Orders) { %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (Order of Orders) { %>
+                        <tr>
+                            <td> 
+                                <p><%=Order.id%></p>    
+                            </td>
+                            <td> 
+                                <p><%=Order.Date%></p>    
+                            </td>
+                            <td>
+                                <p>Rs.<span><%=Order.Subtotal%></span></p>
+                            </td>
+                            <td>
+                                <p><span><%=Order.orderStatus%></span></p>
+                            </td>
+                            <td>
+                                <a href="/orderSummary/?orderId=<%=Order.id%>" class="genric-btn primary medium text-dark">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <hr>
+                <% }else{ %>
+                    <p>No Orders</p>
+                 <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<%- include('./includes/footer') %>

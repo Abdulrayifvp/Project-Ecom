@@ -3,6 +3,7 @@ const path = require('path')
 const ejs = require('ejs');
 const bodyParser = require('body-parser')
 const Mongoose = require('./configuration/connection')
+const session = require('express-session')
 
 
 
@@ -15,15 +16,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(session({secret: 'key',cookie: {maxAge:600000}}))
 app.listen(3000,()=>{
     console.log("Server started in port 3000");
 })
 
 
+
+    
+
 const userRouter = require('./routes/user')
 const adminRouter = require('./routes/admin')
 app.use('/', userRouter)
 app.use('/admin',adminRouter)
+
 
 
 

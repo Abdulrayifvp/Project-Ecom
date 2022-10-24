@@ -1,11 +1,13 @@
 const { Collection } = require("mongoose");
 
 module.exports={
-    AdminCollection : "Admins",
+    AdminCollection : "admins",
     UserCollection : "Users",
     CategoryCollection : "Categories",
     ProductCollection : "Products",
     CouponCollection : "Coupons",
     OrderCollection : "Orders",
-    BannerCollection : "banners"
+    BannerCollection : "Banners",
+    CartCollection : "Carts",
+    WishlistCollection : "Wishlists",
 }

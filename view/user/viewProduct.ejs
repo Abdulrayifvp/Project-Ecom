@@ -1,0 +1,56 @@
+<%- include('./includes/header.ejs') %>
+<%- include('./includes/navigation.ejs') %>
+<!--================Single Product Area =================-->
+<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <div class="col-lg-6">
+                <div class="s_Product_carousel">
+                    <% for( Image of Product.Images) { %>
+                        <div class="single-prd-item">
+                            <img class="img-fluid" src="../productImages/<%=Image%>" alt="">
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                    <h3><%=Product.Name%></h3>
+                    <h2>Rs.<%=Product.CostPrize%></h2>
+                    <ul class="list">
+                        <li><a href="#"><span>Category : </span><%=Product.Category%></a></li>
+                        <%if(Product.Quantity==0){%>
+                        <li><a href="#"><span>Availibility : </span><span class="text-danger"> Out of stock</span></a></li>
+                            <%} else if(Product.Quantity<=5) { %>
+                        <li><a class="" href="#"><span>Availibility : </span><span class="text-warning"> <%=Product.Quantity%> stock Left</span></a></li>
+                            <%} else { %>
+                        <li><a class="" href="#"><span>Availibility : </span><span class="text-success"> In Stock</span></a></li>
+                            <% } %>
+                    </ul>
+                    <p><%=Product.Description%></p>
+                    <div class="product_count">
+                    <form action="/addToCart/?productId=<%=Product.id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>" method="post">
+
+                        
+                        <label for="qty">Quantity:</label>
+                        <input type="text" name="quantity" id="sst" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                         class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+                        <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 ) result.value--;return false;"
+                         class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+                    </div>
+                    
+                    <div class="card_area d-flex align-items-center">
+                        <button class="primary-btn">Add to Cart</button>
+                        <a class="icon_btn" href="/addToWishlist/?productId=<%=Product.id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>"><i class="lnr lnr lnr-heart"></i></a>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--================End Single Product Area =================-->
+
+
+<%- include('./includes/footer.ejs') %>

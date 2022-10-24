@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+const Collections = require('../configuration/collections')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const userSchema = new Schema({
     userName : {
@@ -18,6 +19,10 @@ const userSchema = new Schema({
     password : {
         type : String,
         required : true
+    },
+    access : {
+        type : Boolean,
+        required : true
     }
 }) 
-module.exports = mongoose.model('User',userSchema)
+module.exports = mongoose.model(Collections.UserCollection,userSchema)

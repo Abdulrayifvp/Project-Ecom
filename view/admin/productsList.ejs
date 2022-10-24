@@ -1,0 +1,181 @@
+<%- include('includes/header') %> <%- include('includes/nav') %>
+<main>
+  <div class="container">
+    <div class="page-title-container">
+      <div class="row g-0">
+        <div class="col-auto mb-3 mb-md-0 me-auto">
+          <div class="w-auto sw-md-30">
+            <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
+              <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+              <span class="text-small align-middle">Home</span>
+            </a>
+            <h1 class="mb-0 pb-0 display-4" id="title">Product List</h1>
+          </div>
+        </div>
+        <div class="w-100 d-md-none"></div>
+        <div
+          class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3"
+        >
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+            onclick="window.location.href='/admin/addProducts'"
+          >
+            <i data-acorn-icon="plus"></i>
+            <span>Add Product</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <% if(ProductState){ %>
+    <div class="row mb-2">
+      <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+        <div
+          class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground"
+        >
+          <input class="form-control" placeholder="Search" />
+          <span class="search-magnifier-icon">
+            <i data-acorn-icon="search"></i>
+          </span>
+          <span class="search-delete-icon d-none">
+            <i data-acorn-icon="close"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row g-0">
+      <div class="col-12 mb-5">
+        <div id="checkboxTable">
+          <div class="mb-4 mb-lg-3 bg-transparent no-shadow d-none d-lg-block">
+            <div class="row g-0">
+              <div class="col-auto sw-11 d-none d-lg-flex"></div>
+              <div class="col">
+                <div class="ps-5 pe-4 h-100">
+                  <div class="row g-0 h-100 align-content-center custom-sort">
+                    <div
+                      class="col-lg-4 d-flex flex-column mb-lg-0 pe-3 d-flex"
+                    >
+                      <div
+                        class="text-muted text-small cursor-pointer sort"
+                        data-sort="name"
+                      >
+                        TITLE
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-2 d-flex flex-column pe-1 justify-content-center"
+                    >
+                      <div
+                        class="text-muted text-small cursor-pointer sort"
+                        data-sort="email"
+                      >
+                        STOCK
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-3 d-flex flex-column pe-1 justify-content-center"
+                    >
+                      <div
+                        class="text-muted text-small cursor-pointer sort"
+                        data-sort="phone"
+                      >
+                        PRICE
+                      </div>
+                    </div>
+                    <div
+                      class="col-lg-2 d-flex flex-column pe-1 justify-content-center"
+                    >
+                      <div
+                        class="text-muted text-small cursor-pointer sort"
+                        data-sort="group"
+                      >
+                        STATUS
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <% for(Product of Products){ %>
+          <div class="card mb-2">
+            <div class="row g-0 h-100 sh-lg-12 position-relative">
+              <a
+                href="/admin/editProduct/?id=<%-Product.id%>"
+                class="col-auto position-relative"
+              >
+                <img
+                style="height:95  px ;"
+                  src="../productImages/<%=Product.Images[0] %>"
+                  alt="product"
+                  class="card-img card-img-horizontal sw-11 "
+                />
+              </a>
+              <div class="col py-4 py-lg-0">
+                <div class="ps-5 pe-4 h-100">
+                  <div class="row g-0 h-100 align-content-center">
+                    <a
+                      href="/admin/editProduct/?id=<%-Product.id%>"
+                      class="col-11 col-lg-4 d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center"
+                    >
+                      <%= Product.Name %>
+                      <div class="text-small text-muted text-truncate position">
+                        <%= Product.id %>
+                      </div>
+                    </a>
+                    <div
+                      class="col-12 col-lg-2 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3"
+                    >
+                      <div class="lh-1 text-alternate">
+                        <%= Product.Quantity %>
+                      </div>
+                    </div>
+                    <div
+                      class="col-12 col-lg-3 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4"
+                    >
+                      <div class="lh-1 text-alternate">
+                        <%= Product. SellingPrize %>
+                      </div>
+                    </div>
+                    <div
+                      class="col-12 col-lg-2 d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5"
+                    >
+                      <%if(Product.Quantity==0){%>
+                      <span class="badge bg-outline-danger group"
+                        >Out of Stock</span
+                      >
+                      <%} else if(Product.Quantity<=5) { %>
+                      <span class="badge bg-outline-warning group"
+                        ><%=Product.Quantity%> Left</span
+                      >
+                      <%} else { %>
+                      <span class="badge bg-outline-primary group"
+                        >In Stock</span
+                      >
+                      <% } %>
+                    </div>
+                    <div
+                      class="col-1 d-flex flex-column mb-2 mb-lg-0 align-items-end order-2 order-lg-last justify-content-lg-center"
+                    >
+                      <a
+                        href="/admin/deleteProduct/?id=<%-Product.id%>"
+                        class="btn btn-success"
+                        >Delete</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <% } else { %>
+    <h2>No Products</h2>
+    <% } %>
+  </div>
+</main>
+<%- include('includes/footer') %>

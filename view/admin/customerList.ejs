@@ -1,0 +1,63 @@
+<%- include('includes/header') %> 
+<%- include('includes/nav') %>
+  <main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a
+                href="#"
+                class="muted-link pb-1 d-inline-block breadcrumb-back"
+              >
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Customer List</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+          <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+            <input class="form-control" placeholder="Search" />
+            <span class="search-magnifier-icon">
+              <i data-acorn-icon="search"></i>
+            </span>
+            <span class="search-delete-icon d-none">
+              <i data-acorn-icon="close"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    <table id="#Table" class="table">
+      <thead>
+        <tr>
+          <th scope="col">Profile</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Contact</th>
+          <th scope="col">View</th>
+          <th scope="col">Access</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(user of users){ %>
+        <tr class="clickable" onclick="window.location=''">
+          <td><img src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png" alt="" height="50px" srcset=""></td>
+          <td class="align-middle"><%= user.userName %></td>
+          <td class="align-middle"><%= user.email %></td>
+          <td class="align-middle"><%= user.phone %></td>
+          <td class="align-middle"><a href="" class="btn btn-warning">View</a></td>
+          <% if(user.access===true){ %>
+          <td class="align-middle"><a href="/admin/blockUser/?id=<%= user.id %>" class="btn btn-primary">BLOCK</a></td>
+          <% }else{ %>
+          <td class="align-middle"><a href="/admin/unBlockUser/?id=<%= user.id %>" class="btn btn-danger">UNBLOCK</a></td>
+          <% } %>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+<%- include('includes/footer') %>
