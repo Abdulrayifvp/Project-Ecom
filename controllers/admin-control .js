@@ -6,12 +6,14 @@ const { access } = require('fs');
 const session = require('express-session');
 const saltRounds = 10;
 let errMsg = null
+
  
 
-productSchema = require('../model/Product-model')
-adminSchema = require('../model/admin-model')
-userSchema = require('../model/user-model')
-categorySchema = require('../model/category-model')
+const productSchema = require('../model/Product-model')
+const adminSchema = require('../model/admin-model')
+const userSchema = require('../model/user-model')
+const categorySchema = require('../model/category-model')
+const orderSchema = require('../model/order-model')
 
 
 module.exports ={
@@ -50,15 +52,13 @@ module.exports ={
         })
     },
     getDashboard : (req,res)=>{
-        if(req.session.adminLoggedIn){
+        
         res.render('admin/dashboard',{session:req.session})
-        }else{
-            res.redirect('/admin/login')
-        }
+        
     },
     getProductsList : (req,res)=>{
-            if(req.session.adminLoggedIn){
-                productSchema.find().then((Products)=>{
+            
+                productSchema.find({Delete:false}).then((Products)=>{
                     // console.log(Products);
                     if(Products[0]){
                         res.render('admin/productsList',{ProductState:true,Products,session:req.session})
@@ -68,9 +68,7 @@ module.exports ={
                         
                     }
                 })
-            }else{
-                res.redirect('/admin/login')
-            }
+            
         
         
     },
@@ -110,6 +108,7 @@ module.exports ={
             const Quantity = req.body.quantity
             const Colour = req.body.colour
             const Images = req.body.images
+            const Delete = false
 
             const product = new productSchema({
                 Name : Name,
@@ -119,7 +118,8 @@ module.exports ={
                 CostPrize : CostPrize,
                 Quantity : Quantity,
                 Images : Images,
-                Colour  : Colour
+                Colour  : Colour,
+                Delete :  Delete
 
             })
             
@@ -137,9 +137,9 @@ module.exports ={
         
     },
     getEditProducts :(req,res)=> {
-        if(req.session.adminLoggedIn){
+        
             productSchema.findOne({_id:req.query.id}).then((result)=>{
-                console.log(result);
+                
                 categorySchema.find().then((Categories)=>{
                     res.render('admin/editProducts',{Product : result,session:req.session,Categories})
                 })
@@ -147,42 +147,75 @@ module.exports ={
             }).catch((err)=>{
                 console.log(err);
             })
-        }else{
-            res.redirect('/admin/login')
-        }
+        
             
     },
-    postEditProducts : (req,res)=>{
-            productSchema.updateOne({_id:req.query.id},{$set:{
-             Name : req.body.productName,
-             Description : req.body.productDescription,
-             Category : req.body.category,
-             SellingPrize : req.body.sellingPrize,
-             CostPrize : req.body.costPrize,
-             Quantity : req.body.quantity,
-             Colour : req.body.colour
-            }}).then((result)=>{
+    postEditProducts : async (req,res)=>{
+
+            
+            let files = req.files
+            console.log(files);
+            if(files.length!=0){
+                const Images = []
+            for(i=0;i<req.files.length;i++){
+                Images[i]=files[i].filename
+            }
+            console.log('1');
+            let Product = await productSchema.findOne({_id:req.query.id})
+             Product.Name = req.body.productName,
+             Product.Description = req.body.productDescription,
+             Product.Category = req.body.category,
+             Product.SellingPrize = req.body.sellingPrize,
+             Product.CostPrize = req.body.costPrize,
+             Product.Quantity = req.body.quantity,
+             Product.Colour = req.body.colour
+
+            req.body.images = Images
+            Product.Images = req.body.images
+
+            Product.save().then((result)=>{
                 res.redirect('/admin/products')
+                console.log(result);
             }).catch((err)=>{
                 console.log(err);
             })
+
+            }else{
+                console.log('2');
+                let Product = await productSchema.findOne({_id:req.query.id})
+                Product.Name = req.body.productName,
+                Product.Description = req.body.productDescription,
+                Product.Category = req.body.category,
+                Product.SellingPrize = req.body.sellingPrize,
+                Product.CostPrize = req.body.costPrize,
+                Product.Quantity = req.body.quantity,
+                Product.Colour = req.body.colour
+   
+                Product.save().then((result)=>{
+                    res.redirect('/admin/products')
+                    console.log(result);
+                }).catch((err)=>{
+                    console.log(err);
+                })
+            }
+            
+            
     },
-    getDeleteProduct : (req,res)=>{
-        productSchema.deleteOne({_id:req.query.id})
+    getDeleteProduct :async (req,res)=>{
+        let Product=await productSchema.findOne({_id:req.query.id})
+        Product.Delete=true
+        Product.save()
         .then((result)=>{
             res.redirect('/admin/products')
         }).catch((err)=>{
             console.log(err);
         })
+        res.json({state:true})
     },
     getCustomers : (req,res)=>{
-        if(req.session.adminLoggedIn){
             userSchema.find().then((users)=>{
                 res.render('admin/customerList',{users,session:req.session}) 
             })
-        }else{
-            res.redirect('/admin/login')
-        }
         
         
     },
@@ -197,38 +230,29 @@ module.exports ={
         })
     },
     getCategory : (req,res)=>{
-        if(req.session.adminLoggedIn){
+        
             categorySchema.find().then((result)=>{
             
                 res.render('admin/categoryList',{Categories :result,session:req.session})
             })
-        }else{
-            res.redirect('/admin/login')
-        }
         
     },
     getAddCategory : (req,res)=>{
-        if(req.session.adminLoggedIn){
+       
         res.render('admin/addCategory',{session:req.session,errMsg})
-        }else{
-            res.redirect('/admin/login')
-        }
+       
         errMsg=null
     },
     postAddCategory : (req,res)=>{
         categorySchema.find({Name : req.body.Name}).then((result)=>{
-            console.log(result[0]);
             if(result[0]==undefined){
-                console.log(req.body);
-                const Image = req.files.img
+                const Image = req.file.filename
                 const category = new categorySchema({
-                Name : req.body.Name
+                Name : req.body.Name,
+                Image : Image
             })
             category.save().then((result)=>{
-            console.log(result);
-            Image.mv('./public/categoryImages/'+result.id+'.jpg',(err,done)=>{
-                res.redirect('/admin/categoryList')
-                })
+            res.redirect('/admin/addCategory')
             })
             }else{
                 res.redirect('/admin/addCategory')
@@ -245,13 +269,11 @@ module.exports ={
         })
     },
     getEditCategory : (req,res)=>{
-        if(req.session.adminLoggedIn){
+        
             categorySchema.findOne({id:req.query.id}).then((result)=>{
                 res.render('admin/editCategory',{category : result,session:req.session})
             })
-        }else{
-            res.redirect('/admin/login')
-        }
+       
         
     },
     postEditCategory : (req,res)=>{
@@ -265,6 +287,28 @@ module.exports ={
         req.session.adminLoggedIn=null;
         req.session.adminData=null
         res.redirect('/admin/login')
+    },
+    getOrders : (req,res)=>{
+        
+        orderSchema.find().then((orders)=>{
+            res.render('admin/orderList',{
+                session:req.session,
+                Orders:orders
+            })
+        })
+    },
+    getOrderSummary : (req,res)=>{
+        orderSchema.findById(req.query.id).then((result)=>{
+            // console.log(result);
+            res.render('admin/orderSummary',{
+                session:req.session,
+                Order:result
+            })
+        })
+    },
+    getChangeOrderStatus : (req,res)=>{
+        orderSchema.findByIdAndUpdate(req.query.id,{orderStatus:req.body.value}).then((result)=>{
+        })
+    res.json({status:true})
     }
-
 }

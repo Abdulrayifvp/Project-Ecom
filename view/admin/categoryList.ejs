@@ -56,7 +56,7 @@
       <tbody>
         <% for (Category of Categories) { %>
         <tr class="clickable" onclick="window.location=''">
-          <td><img src="/categoryImages/<%= Category.id %>.jpg" alt="" height="50px" srcset=""></td>
+          <td><img width="70px" src="/categoryImages/<%= Category.Image %>" alt="" srcset=""></td>
           <td class="align-middle"><%=Category.Name %></td>
           <td class="align-middle"><a href="/admin/editCategory/?id=<%= Category.id %>" class="btn btn-warning">Edit</a></td>
           <td class="align-middle"><a href="/admin/deleteCategory/?id=<%= Category.id %>" class="btn btn-primary">Remove</a></td>

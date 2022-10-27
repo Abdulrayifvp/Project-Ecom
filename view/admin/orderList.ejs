@@ -1,0 +1,163 @@
+<%- include('includes/header') %> <%- include('includes/nav') %>
+
+
+<main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a
+                href="#"
+                class="muted-link pb-1 d-inline-block breadcrumb-back"
+              >
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Order List</h1>
+            </div>
+          </div>
+          
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+          <div
+            class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground"
+          >
+            <input class="form-control" placeholder="Search" />
+            <span class="search-magnifier-icon">
+              <i data-acorn-icon="search"></i>
+            </span>
+            <span class="search-delete-icon d-none">
+              <i data-acorn-icon="close"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
+          <div class="d-inline-block">
+            <button
+              class="btn btn-icon btn-icon-only btn-foreground-alternate shadow"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              data-bs-delay="0"
+              title="Print"
+              type="button"
+            >
+              <i data-acorn-icon="print"></i>
+            </button>
+            
+            
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mb-5">
+          <div class="card mb-2 bg-transparent no-shadow d-none d-md-block">
+            <div class="card-body pt-0 pb-0 sh-3">
+              <div class="row g-0 h-100 align-content-center">
+                <div
+                  class="col-md-3 d-flex align-items-center mb-2 mb-md-0 text-muted text-small"
+                >
+                  ID
+                </div>
+                <div
+                  class="col-md-3 d-flex align-items-center text-muted text-small"
+                >
+                  NAME
+                </div>
+                <div
+                  class="col-md-2 d-flex align-items-center text-muted text-small"
+                >
+                  PRICE
+                </div>
+                <div
+                  class="col-md-2 d-flex align-items-center text-muted text-small"
+                >
+                  DATE
+                </div>
+                <div
+                  class="col-md-2 d-flex align-items-center text-muted text-small"
+                >
+                  STATUS
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="checkboxTable">
+           <% for(Order of Orders) { %>
+
+            <div class="card mb-2">
+                <div class="card-body pt-0 pb-0 sh-21 sh-md-8">
+                  <div class="row g-0 h-100 align-content-center">
+                    <div
+                      class="col-11 col-md-3 d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative"
+                    >
+                      <div class="text-muted text-small d-md-none">Id</div>
+                      <a
+                        href="/admin/orderSummary/?id=<%=Order._id%>"
+                        class="text-truncate h-100 d-flex align-items-center"
+                        ><%=Order._id%></a
+                      >
+                    </div>
+                    <div
+                      class="col-6 col-md-3 d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2"
+                    >
+                      <div class="text-muted text-small d-md-none">Name</div>
+                      <div class="text-alternate"><%=Order.Address.firstName%> <%=Order.Address.lastName%></div>
+                    </div>
+                    <div
+                      class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3"
+                    >
+                      <div class="text-muted text-small d-md-none">Price</div>
+                      <div class="text-alternate">
+                        <span>
+                          <span class="text-small">RS.</span>
+                          <%=Order.Subtotal%>
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4"
+                    >
+                      <div class="text-muted text-small d-md-none">Date</div>
+                      <div class="text-alternate"><%=Order.Date%></div>
+                    </div>
+                    <div
+                      class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5"
+                    >
+                      <div class="text-muted text-small d-md-none">
+                        Status
+                      </div>
+                      <div class="text-alternate">
+                        <% if(Order.orderStatus=='Order Pending'){ %>
+                            <span class="badge rounded-pill bg-outline-warning"><%=Order.orderStatus%></span>
+                        <% }else if(Order.orderStatus=='Delivered') {%>
+                            <span class="badge rounded-pill bg-outline-primary"><%=Order.orderStatus%></span>
+                        <% }else if(Order.orderStatus=='Cancelled') {%>
+                            <span class="badge rounded-pill bg-outline-danger"><%=Order.orderStatus%></span>
+                        <% }else{ %>
+                            <span class="badge rounded-pill bg-outline-info"><%=Order.orderStatus%></span>
+                        <% } %>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+            <% } %>
+            
+            
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </main>
+
+<%- include('includes/footer') %>

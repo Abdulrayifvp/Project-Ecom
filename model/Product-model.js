@@ -35,6 +35,10 @@ const productSchema = new Schema({
     Colour : {
         type :String,
         required  : false
+    },
+    Delete : {
+        type : Boolean,
+        required : true
     }
 }) 
 module.exports = mongoose.model(Collections.ProductCollection,productSchema)

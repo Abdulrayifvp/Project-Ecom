@@ -8,7 +8,7 @@
                 <div class="s_Product_carousel">
                     <% for( Image of Product.Images) { %>
                         <div class="single-prd-item">
-                            <img class="img-fluid" src="../productImages/<%=Image%>" alt="">
+                            <img class="img-fluid"  src="../productImages/<%=Image%>" alt="">
                         </div>
                     <% } %>
                 </div>
@@ -16,7 +16,8 @@
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
                     <h3><%=Product.Name%></h3>
-                    <h2>Rs.<%=Product.CostPrize%></h2>
+                    <h2>Rs.<%=Product.SellingPrize%></h2>
+                    <h6 class="text-secondary"><s>Rs.<%=Product.CostPrize%></s></h6>
                     <ul class="list">
                         <li><a href="#"><span>Category : </span><%=Product.Category%></a></li>
                         <%if(Product.Quantity==0){%>
@@ -26,9 +27,11 @@
                             <%} else { %>
                         <li><a class="" href="#"><span>Availibility : </span><span class="text-success"> In Stock</span></a></li>
                             <% } %>
+                        <li class="mt-5"><a href="#"><span>Description : </span></a></li>
                     </ul>
-                    <p><%=Product.Description%></p>
-                    <div class="product_count">
+                    
+                    <pre><%=Product.Description%></pre>
+                    <div class="product_count mt-4">
                     <form action="/addToCart/?productId=<%=Product.id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>" method="post">
 
                         

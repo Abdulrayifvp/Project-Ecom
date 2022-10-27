@@ -8,6 +8,10 @@ const categorySchema = new Schema({
         type : String,
         required : true
     },
+    Image :{
+        type : String,
+        required : true
+    }
     
 }) 
 module.exports = mongoose.model(Collections.CategoryCollection,categorySchema)

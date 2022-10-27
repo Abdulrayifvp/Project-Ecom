@@ -7,9 +7,16 @@ const bcrypt = require("bcrypt");
 const { findOne } = require("../model/user-model");
 const saltRounds = 10;
 let errMsg = null
+let otpErr = null
 const Razorpay = require('razorpay');
+const otpGenerator = require('otp-generator')
 var { validatePaymentVerification } = require('../node_modules/razorpay/dist/utils/razorpay-utils');
-var instance = new Razorpay({ key_id: 'rzp_test_ZMiXSevX9pibAE', key_secret: '4KaDWb8sGlgBN3J3yQQDmZrb' })
+require('dotenv').config()
+var instance = new Razorpay({ key_id: process.env.KEY_ID, key_secret: process.env.KEY_SECRET })
+const accountSid = process.env.ACCOUNT_SID; 
+const authToken = process.env.AUTH_TOKEN; 
+const serviceId = process.env.SERVICE_ID;
+const client = require('twilio')(accountSid, authToken); 
 
 const { resolve } = require("path");
 
@@ -51,32 +58,20 @@ module.exports = {
         
 
       } else {
-        return new Promise(async (resolve, reject) => {
-          const userName = req.body.userName;
-          const email = req.body.email;
-          const phone = req.body.phone;
-          const password = await bcrypt.hash(req.body.password, saltRounds);
-          const access = true
+        let generatedOtp=otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets:false,digits:true });
+        console.log(generatedOtp);
+        req.session.generatedOtp=generatedOtp;
+        req.session.userData=req.body
+        let phone = req.body.phone
+        console.log(phone); 
+    
 
-          const user = new UserSchema({
-            userName: userName,
-            email: email,
-            phone: phone,
-            password: password,
-            access:access
-          });
-          user
-            .save()
-            .then((result) => {
-              console.log("signup Success");
-              req.session.userLoggedIn=true;
-              req.session.userData=user;
-              res.redirect('/')
-            })
-            .catch((err) => {
-              console.log(err);
-          });
-        });
+      client.verify.v2.services(serviceId)
+                .verifications
+                .create({to: "+91"+phone, channel: 'sms'})
+                .then(verification => console.log(verification.status));
+      res.redirect('/verifyOtp')
+        
       }
     });
   },
@@ -113,7 +108,72 @@ module.exports = {
     });
   },
   getVerifyOtp: (req, res) => {
-    res.render("user/verifyOtp",{session : req.session});
+    res.render("user/verifyOtp",{session : req.session,otpErr:otpErr});
+    otpErr=null;
+  },
+  postVerifyOtp : (req,res)=>{
+    let generatedOtp = req.session.generatedOtp
+    let inputOtp=req.body.OTP
+    let userData=req.session.userData
+    let phone = req.session.userData.phone
+
+    console.log(inputOtp);
+
+    client.verify.v2.services(serviceId).verificationChecks
+    .create({to: "+91"+phone, code: inputOtp})
+    .then(verification_check =>{ 
+      console.log(verification_check.status)
+      
+      if(verification_check.status=='approved'){
+        console.log('success');
+        return new Promise(async (resolve, reject) => {
+            const userName = userData.userName;
+            const email = userData.email;
+            const phone = userData.phone;
+            const password = await bcrypt.hash(userData.password, saltRounds);
+            const access = true
+  
+            const user = new UserSchema({
+              userName: userName,
+              email: email,
+              phone: phone,
+              password: password,
+              access:access
+            });
+            user
+              .save()
+              .then((result) => {
+                console.log("signup Success");
+                req.session.userLoggedIn=true;
+                req.session.userData=result;
+                res.redirect('/')
+              })
+              .catch((err) => {
+                console.log(err);
+            });
+          });
+      }
+      else{
+        console.log('fail');
+        otpErr="Wrong Entry !";
+        res.redirect('/verifyOtp')
+        
+  
+      }
+    
+    });
+
+
+    
+
+  },
+  getResetOtp : (req,res)=>{
+    let phone = req.session.userData.phone
+    client.verify.v2.services(serviceId)
+    .verifications
+    .create({to: "+91"+phone, channel: 'sms'})
+    .then(verification => console.log(verification.status));
+    res.redirect('/verifyOtp')
   },
   getViewProduct : async(req,res)=>{
     productSchema.findOne({_id:req.query.id}).then((Product)=>{
