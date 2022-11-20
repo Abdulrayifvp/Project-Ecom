@@ -1,0 +1,56 @@
+<%- include('./includes/header') %> <%- include('./includes/navigation') %>
+
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <h2 class="mt-5 mb-5">My Profile</h2>
+            <div class="blog_right_sidebar">
+                
+                <aside class="single_sidebar_widget author_widget">
+                    <img class="author_img rounded-circle w-25" src="https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/user-profile-icon.png" alt="">
+                    <h4><%=session.userData.userName%></h4>
+                    <p><%=session.userData.email%></p> 
+                    <div class="mt-4 mb-4">
+                        <a href="/cart" class="genric-btn primary w-50 m-1">Cart</a><br>
+                        <a href="/orders" class="genric-btn primary w-50 m-1">My Orders</a><br>
+                        <a href="/wishlist" class="genric-btn primary w-50 m-1">Wishlist</a><br>
+                    </div>
+                    <div class="mt-4">
+                        <!-- <a href="" class="genric-btn success">Edit</a> -->
+                        <a href="/logout" class="genric-btn danger">Logout</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <h2 class="mt-5 mb-5">My Addresses</h2>
+            <div class="row">
+              <% for (address of addresses) { %>
+                <div class="col-sm-6 mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title"><%=address.firstName%> <%=address.secondName%></h5>
+                      <p class="card-text"><%=address.houseName%>, <%=address.address%>, <%=address.city%>, <%=address.district%>, <%=address.state%>, <%=address.country%>, <%=address.pincode%></p>
+                      <a href="/editAddress/?id=<%=address._id%>" class="btn btn-primary">Edit</a>
+                      <a href="/deleteAddress/?id=<%=address._id%>" class="btn btn-danger">Delete</a>
+
+                    </div>
+                  </div>
+                </div>
+              <% } %>
+                
+                <div class="col-sm-6 " >
+                  <div class="card">
+                    
+                      <a href="/addAddress" class="btn btn-primary">Add New</a>
+                    
+                  </div>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+    
+</div>
+
+<%- include('./includes/footer') %>

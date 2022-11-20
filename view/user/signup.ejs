@@ -14,7 +14,7 @@
                         <span id="errMsg" class="text-danger"></span>
                         <h6 class="text-danger"><%= errMsg %></h6>
                     
-                    <form class="row login_form" action="/signup" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="row login_form" action="/signup" method="post" id="contactForm" novalidate="novalidate" onsubmit="return fieldvalidation()">
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="userName" name="userName" placeholder="User Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
                             <span class="float-right text-danger" id="userNameErr"></span>
@@ -24,7 +24,7 @@
                             <span class="float-right text-danger"   id="emailErr"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+                            <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
                             <span class="float-right text-danger" id="phoneErr"></span>
                         </div>
                         <div class="col-md-12 form-group">
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 form-group">
-                            <button type="submit" onclick="fieldvalidation()" value="submit" class="primary-btn">Sign Up</button>
+                            <button type="submit" value="submit" class="primary-btn">Sign Up</button>
                             <a class="m-4" href="/login">Already have an account ?</a>
                         </div>
                     </form>
@@ -74,21 +74,56 @@
 
     function fieldvalidation() {
         if (document.getElementById('pass').value == "") {
-            document.getElementById('passwordErr').innerHTML="required"
+            document.getElementById('passwordErr').innerHTML="Fill this field"
+            valid1=false
+        }else{
+            document.getElementById('passwordErr').innerHTML=""
+            valid1=true
         }
+
         if(document.getElementById('confirm_pass').value == ""){
-            document.getElementById('comPassErr').innerHTML="required"
+            document.getElementById('comPassErr').innerHTML="Fill this field"
+            valid2=false
+        }else{
+            document.getElementById('comPassErr').innerHTML=""
+            valid2=true
         }
+
         if(document.getElementById('userName').value ==""){
-            document.getElementById('userNameErr').innerHTML="required"
+            document.getElementById('userNameErr').innerHTML="Fill this field"
+            valid3=false
+        }else if(document.getElementById('userName').value.length<2){
+            document.getElementById('userNameErr').innerHTML="Enter a valid username"
+            valid3=false
+        }else{
+            document.getElementById('userNameErr').innerHTML=""
+            valid3=true
         }
+
         if(document.getElementById('email').value ==""){
-            document.getElementById('emailErr').innerHTML='required'
+            document.getElementById('emailErr').innerHTML='Fill this field'
+            valid4=false
+        }else{
+            document.getElementById('emailErr').innerHTML=''
+            valid4=true
         }
+
         if(document.getElementById('phone').value ==""){
-            document.getElementById('phoneErr').innerHTML='required'
+            document.getElementById('phoneErr').innerHTML='Fill this field'
+            valid5=false
+        }else if(document.getElementById('phone').value.length!=10){
+            document.getElementById('phoneErr').innerHTML='Enter valid Phone number'
+            valid5=false
+        }else{
+            document.getElementById('phoneErr').innerHTML=''
+            valid5=true
         }
          
+        if(valid1&&valid2&&valid3&&valid3&&valid4&&valid5){
+            return true
+        }else{
+            return false
+        }
     }
 </script>
 

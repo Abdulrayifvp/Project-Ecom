@@ -81,45 +81,7 @@
                     >
                       EARNINGS
                     </div>
-                    <div class="text-primary cta-4">$ 315.20</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-2">
-                <div class="card h-100 hover-scale-up cursor-pointer">
-                  <div
-                    class="card-body d-flex flex-column align-items-center"
-                  >
-                    <div
-                      class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
-                    >
-                      <i data-acorn-icon="cart" class="text-primary"></i>
-                    </div>
-                    <div
-                      class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
-                    >
-                      ORDERS
-                    </div>
-                    <div class="text-primary cta-4">16</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-6 col-md-4 col-lg-2">
-                <div class="card h-100 hover-scale-up cursor-pointer">
-                  <div
-                    class="card-body d-flex flex-column align-items-center"
-                  >
-                    <div
-                      class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
-                    >
-                      <i data-acorn-icon="server" class="text-primary"></i>
-                    </div>
-                    <div
-                      class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
-                    >
-                      SESSIONS
-                    </div>
-                    <div class="text-primary cta-4">463</div>
+                    <div class="text-primary cta-4">Rs. <%=totalEarnings%></div>
                   </div>
                 </div>
               </div>
@@ -138,10 +100,32 @@
                     >
                       USERS
                     </div>
-                    <div class="text-primary cta-4">17</div>
+                    <div class="text-primary cta-4"><%=userCount%></div>
                   </div>
                 </div>
               </div>
+
+              <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100 hover-scale-up cursor-pointer">
+                  <div
+                    class="card-body d-flex flex-column align-items-center"
+                  >
+                    <div
+                      class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
+                    >
+                      <i data-acorn-icon="cart" class="text-primary"></i>
+                    </div>
+                    <div
+                      class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
+                    >
+                      ORDERS
+                    </div>
+                    <div class="text-primary cta-4"><%=orderCount%></div>
+                  </div>
+                </div>
+              </div>
+              
+              
               <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 hover-scale-up cursor-pointer">
                   <div
@@ -151,19 +135,20 @@
                       class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
                     >
                       <i
-                        data-acorn-icon="arrow-top-left"
+                        data-acorn-icon="shipping"
                         class="text-primary"
                       ></i>
                     </div>
                     <div
                       class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
                     >
-                      RETURNS
+                      SHIPPED
                     </div>
-                    <div class="text-primary cta-4">2</div>
+                    <div class="text-primary cta-4"><%=shippedCount%></div>
                   </div>
                 </div>
               </div>
+              
               <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 hover-scale-up cursor-pointer">
                   <div
@@ -172,17 +157,44 @@
                     <div
                       class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
                     >
-                      <i data-acorn-icon="message" class="text-primary"></i>
+                      <i
+                        data-acorn-icon="check"
+                        class="text-primary"
+                      ></i>
                     </div>
                     <div
                       class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
                     >
-                      COMMENTS
+                      DELIVERED
                     </div>
-                    <div class="text-primary cta-4">5</div>
+                    <div class="text-primary cta-4"><%=deliveredCount%></div>
                   </div>
                 </div>
               </div>
+
+              <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100 hover-scale-up cursor-pointer">
+                  <div
+                    class="card-body d-flex flex-column align-items-center"
+                  >
+                    <div
+                      class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4"
+                    >
+                      <i
+                        data-acorn-icon="warning-hexagon"
+                        class="text-primary"
+                      ></i>
+                    </div>
+                    <div
+                      class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25"
+                    >
+                      PENDING
+                    </div>
+                    <div class="text-primary cta-4"><%=pendingCount%></div>
+                  </div>
+                </div>
+              </div>
+              
             </div>
           </div>
         </div>
@@ -192,321 +204,59 @@
           <h2 class="small-title">Recent Orders</h2>
           <div class="mb-n2 scroll-out">
             <div class="scroll-by-count" data-count="6">
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54129</a
+              <% for (order of ordersList) { %>
+                <div class="card mb-2 sh-15 sh-md-6">
+                  <div class="card-body pt-0 pb-0 h-100">
+                    <div class="row g-0 h-100 align-content-center">
+                      <div
+                        class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
                       >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-primary me-1"
-                        >PENDING</span
+                        <a
+                          href="/admin/orderSummary/?id=<%=order._id%>"
+                          class="body-link stretched-link"
+                          style="display: block;
+                          white-space: nowrap;
+                          width: 12em;
+                          overflow: hidden;
+                          text-overflow: ellipsis;"
+                          ><%=order._id%></a
+                        >
+                      </div>
+                      <div
+                        class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
                       >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        17.35
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Today - 13:20
+                    <% if(order.orderStatus=='Order Pending'){ %>
+                      <span class="badge bg-outline-warning me-1"><%=order.orderStatus%></span>
+                    <% }else if(order.orderStatus=='Delivered') {%>
+                      <span class="badge bg-outline-primary me-1"><%=order.orderStatus%></span>
+                    <% }else if(order.orderStatus=='Cancelled') {%>
+                      <span class="badge bg-outline-danger me-1"><%=order.orderStatus%></span>
+                    <% }else{ %>
+                      <span class="badge bg-outline-info me-1"><%=order.orderStatus%></span>
+                    <% } %>
+                        
+                      </div>
+                      <div
+                        class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
+                      >
+                        <span>
+                          <span class="text-small">Rs.</span>
+                          <%=order.Subtotal%>
+                        </span>
+                      </div>
+                      <div
+                        class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
+                      >
+                      <% if (order.paymentStatus=='Payment Completed') { %>
+                      <span class="badge bg-outline-primary me-1"><%=order.paymentStatus %></span>
+                      <%} else {%>
+                        <span class="badge bg-outline-warning me-1"><%=order.paymentStatus %></span>
+                      <% } %>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54128</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-primary me-1"
-                        >PENDING</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        145.20
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Today - 11:32
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54127</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-primary me-1"
-                        >PENDING</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        110.85
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Today - 11:20
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54126</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-primary me-1"
-                        >PENDING</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        58.00
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Today - 10:20
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54125</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-secondary me-1"
-                        >SHIPPED</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        22.05
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Today - 07:30
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54124</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-secondary me-1"
-                        >SHIPPED</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        14.25
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Monday - 17:30
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54123</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-quaternary me-1"
-                        >DELIVERED</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        42.00
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Monday - 11:25
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54122</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-quaternary me-1"
-                        >DELIVERED</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        63.25
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Monday - 15:20
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-2 sh-15 sh-md-6">
-                <div class="card-body pt-0 pb-0 h-100">
-                  <div class="row g-0 h-100 align-content-center">
-                    <div
-                      class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100"
-                    >
-                      <a
-                        href="Orders.Detail.html"
-                        class="body-link stretched-link"
-                        >Order #54121</a
-                      >
-                    </div>
-                    <div
-                      class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start"
-                    >
-                      <span class="badge bg-outline-quaternary me-1"
-                        >DELIVERED</span
-                      >
-                    </div>
-                    <div
-                      class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate"
-                    >
-                      <span>
-                        <span class="text-small">$</span>
-                        74.00
-                      </span>
-                    </div>
-                    <div
-                      class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate"
-                    >
-                      Monday - 13:10
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <% } %>
             </div>
           </div>
         </div>
@@ -529,14 +279,14 @@
               <div class="dropdown-menu font-standard">
                 <div class="nav flex-column" role="tablist">
                   <a
-                    class="active dropdown-item text-medium"
+                    class="dropdown-item text-medium"
                     href="#"
                     aria-selected="true"
                     role="tab"
                     >Today's</a
                   >
                   <a
-                    class="dropdown-item text-medium"
+                    class="active dropdown-item text-medium"
                     href="#"
                     aria-selected="false"
                     role="tab"
@@ -564,6 +314,9 @@
           <div class="card sh-45 h-xl-100-card">
             <div class="card-body h-100">
               <div class="h-100">
+                <h1 id="DateSpan" style="display: none;"><%=DateSpan%></h1>
+                <h1 id="OrderCompletedata" style="display: none;"><%=finalOrderCompletedata%></h1>
+                <h1 id="Ordercanceldata" style="display: none;"><%=finalOrdercanceldata%></h1>
                 <canvas id="horizontalTooltipChart"></canvas>
                 <div
                   class="custom-tooltip position-absolute bg-foreground rounded-md border border-separator pe-none p-3 d-flex z-index-1 align-items-center opacity-0 basic-transform-transition"
@@ -576,11 +329,11 @@
                   <div>
                     <span
                       class="text d-flex align-middle text-alternate align-items-center text-small"
-                      >Bread</span
+                      ></span
                     >
                     <span
                       class="value d-flex align-middle text-body align-items-center cta-4"
-                      >300</span
+                      ></span
                     >
                   </div>
                 </div>
@@ -589,7 +342,7 @@
           </div>
         </div>
       </div>
-      <div class="row gx-4 gy-5">
+      <!-- <div class="row gx-4 gy-5">
         <div class="col-xl-6 mb-5">
           <h2 class="small-title">Top Selling Items</h2>
           <div class="scroll-out mb-n2">
@@ -861,8 +614,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
+      </div> -->
+      <!-- <div class="row">
         <div class="col-12 col-xxl">
           <div class="row">
             <div class="col-xxl-6 mb-5">
@@ -1610,7 +1363,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </main>
   <%- include('includes/footer') %>

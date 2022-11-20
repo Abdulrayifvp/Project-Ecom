@@ -18,7 +18,7 @@
       </div>
   
       <div class="container">
-        <form action="/admin/addCategory" method="post" enctype="multipart/form-data">
+        <form action="/admin/addCategory" method="post" onsubmit="return validate()" enctype="multipart/form-data">
           <!-- <div class="col me-4 col-md-auto d-flex align-items-end justify-content-end">
             <div class="btn-group ms-1 w-100 w-md-auto">
               <button
@@ -40,15 +40,17 @@
                   name="Name"
                   type="text"
                   class="form-control"
-                  id="exampleFormControlInput1"
+                  id="CategoryInput"
                   placeholder=""
                 />
+                  <p id="categoryInputError" class="text-danger"></p>
                 <span class="text-primary"><%= errMsg %></span>
               </div>
               <div class="row">
                 <div class="col-6 mb-3">
                   <label for="formFile" class="form-label">Select Image</label>
                   <input name="img" class="form-control" type="file" id="formFile">
+                  <p id="formFileError" class="text-danger"></p>
                 </div>
               </div>
               
@@ -70,5 +72,39 @@
       </div>
     </div>
   </main>
+
+  <script>
+    function validate(){
+    let CategoryName = document.getElementById('CategoryInput').value
+    let Image = document.getElementById('formFile').value
+  
+    if (CategoryName == "") {
+      document.getElementById('categoryInputError').innerHTML='Fill This Field'
+      valid1=false
+    }else if(CategoryName.length<3){
+      document.getElementById('categoryInputError').innerHTML='Atleast 3 characters required'
+      valid1=false
+    }else{
+      document.getElementById('categoryInputError').innerHTML=''
+      valid1=true
+    }
+  
+    if(Image==''){
+      document.getElementById('formFileError').innerHTML='Select a file'
+      valid6=false
+    }else{
+      document.getElementById('formFileError').innerHTML=''
+      valid6=true
+    }
+  
+    
+  
+    if(valid1&&valid6){
+      return true
+    }else{
+      return false
+    }
+    }
+  </script>
 
 <%- include('includes/footer') %>

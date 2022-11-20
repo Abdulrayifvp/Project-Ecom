@@ -10,7 +10,7 @@
               <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
               <span class="text-small align-middle">Products</span>
             </a>
-            <h1 class="mb-0 pb-0 display-4" id="title">Product Detail</h1>
+            <h1 class="mb-0 pb-0 display-4" id="title">Add Product</h1>
           </div>
         </div>
         
@@ -18,18 +18,9 @@
     </div>
 
     <div class="container">
-      <form action="/admin/addProducts" method="post" enctype="multipart/form-data">
-        <!-- <div class="col me-4 col-md-auto d-flex align-items-end justify-content-end">
-          <div class="btn-group ms-1 w-100 w-md-auto">
-            <button
-              type="submit"
-              class="btn btn-outline-primary btn-icon btn-icon-start w-100"
-            >
-              <i data-acorn-icon="save"></i>
-              <span>Save</span>
-            </button>
-          </div>
-        </div> -->
+      <form action="/admin/addProducts" id="add-form" method="post" onsubmit="return validate()" enctype="multipart/form-data">
+        
+        </div>
         <div class="row">
           <div class="col-6">
             <div class="mb-3">
@@ -40,9 +31,10 @@
                 name="productName"
                 type="text"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="productNameInput"
                 placeholder=""
               />
+            <p id="productNameError" class="text-danger"></p>
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label"
@@ -51,9 +43,10 @@
               <textarea
                 name="productDescription"
                 class="form-control"
-                id="exampleFormControlTextarea1"
+                id="productDescriptionInput"
                 rows="10"
               ></textarea>
+            <p id="productDescriptionError" class="text-danger"></p>
             </div>
           </div>
           <div class="row col-6">
@@ -65,9 +58,10 @@
                 name="costPrize"
                 type="number"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="costPrizeInput"
                 placeholder=""
               />
+            <p id="costPrizeError" class="text-danger"></p>
             </div>
             <div class="col-6">
               <label for="exampleFormControlInput1" class="form-label"
@@ -77,18 +71,20 @@
                 name="sellingPrize"
                 type="number"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="sellingPrizeInput"
                 placeholder=""
               />
+            <p id="sellingPrizeError" class="text-danger"></p>
             </div>
             <div class="col-6">
               <label class="form-label">Category</label>
-              <select name="category" class="form-control select-single-no-search">
-                <option value="" selected>Category</option>
+              <select id="categoryInput" name="category" class="form-control select-single-no-search">
+                <option value="Category" selected>Category</option>
                 <% for (Category of Categories){ %>
                 <option value="<%=Category.Name%>"><%=Category.Name%></option>
                 <% } %>
               </select>
+            <p id="categoryError" class="text-danger"></p>
             </div>
             <div class="col-6">
               <label for="exampleFormControlInput1" class="form-label"
@@ -98,14 +94,16 @@
                 name="quantity"
                 type="number"
                 class="form-control"
-                id="exampleFormControlInput1"
+                id="quantityInput"
                 placeholder=""
               />
+            <p id="quantityError" class="text-danger"></p>
             </div>
             <div class="row">
               <div class="col-6 mb-3">
                 <label for="formFile" class="form-label">Select Image</label>
                 <input name="img" class="form-control" type="file" id="formFile" multiple>
+                <p id="formFileError" class="text-danger"></p>
               </div>
               <div class="col-3 ms-3 mb-3">
                 <label for="exampleColorInput" class="form-label">Color picker</label>
@@ -131,5 +129,87 @@
     </div>
   </div>
 </main>
+	
+<script>
+  function validate(){ 
+  let ProductName = document.getElementById('productNameInput').value
+  let ProductDescription = document.getElementById('productDescriptionInput').value
+  let CostPrize = document.getElementById('costPrizeInput').value
+  let SellingPrize = document.getElementById('sellingPrizeInput').value
+  let Category = document.getElementById('categoryInput').value
+  let Quantity = document.getElementById('quantityInput').value
+  let Image = document.getElementById('formFile').value
+  
+
+  if (ProductName == "") {
+    document.getElementById('productNameError').innerHTML='Fill This Field'
+    valid1=false
+  }else if(ProductName.length<3){
+    document.getElementById('productNameError').innerHTML='Atleast 3 characters required'
+    valid1=false
+  }else{
+    document.getElementById('productNameError').innerHTML=''
+    valid1=true
+  }
+
+
+  if (ProductDescription == ""){
+    document.getElementById('productDescriptionError').innerHTML='Fill This Field'
+    valid2=false
+  }else if(ProductDescription.length<10){
+    document.getElementById('productDescriptionError').innerHTML='Atleast 10 characters required'
+    valid2=false
+  }else{
+    document.getElementById('productDescriptionError').innerHTML=''
+    valid2=true
+  }
+
+  if(CostPrize==''){
+    document.getElementById('costPrizeError').innerHTML='Fill This Field'
+    valid3=false
+  }else{
+    document.getElementById('costPrizeError').innerHTML=''
+    valid3=true
+  }
+
+  if(SellingPrize==''){
+    document.getElementById('sellingPrizeError').innerHTML='Fill This Field'
+    valid4=false
+  }else{
+    document.getElementById('sellingPrizeError').innerHTML=''
+    valid4=true
+  }
+
+  if(Quantity==''){
+    document.getElementById('quantityError').innerHTML='Fill This Field'
+    valid5=false
+  }else{
+    document.getElementById('quantityError').innerHTML=''
+    valid5=true
+  }
+
+  if(Image==''){
+    document.getElementById('formFileError').innerHTML='Select a file'
+    valid6=false
+  }else{
+    document.getElementById('formFileError').innerHTML=''
+    valid6=true
+  }
+
+  if(Category=='Category'){
+    document.getElementById('categoryError').innerHTML='Select a Category'
+    valid7=false
+  }else{
+    document.getElementById('categoryError').innerHTML=''
+    valid7=true
+  }
+
+  if(valid1&&valid2&&valid3&&valid4&&valid5&&valid6&&valid7){
+    return true
+  }else{
+    return false
+  }
+  }
+</script>
 
 <%- include('includes/footer') %>

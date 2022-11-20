@@ -1,0 +1,160 @@
+<%- include('includes/header') %> <%- include('includes/nav') %>
+
+<main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row g-0">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Coupon</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Add Coupon </h1>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+  
+      <div class="container">
+        <form action="/admin/addCoupon" onsubmit="return validate()" method="post">
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label"
+                  >CODE</label>
+                
+                <input
+                  name="Code"
+                  type="text"
+                  class="form-control"
+                  id="CodeInput"
+                  placeholder=""
+                />
+                <p id="CodeError" class="text-danger"></p>
+                <span class="text-danger"><%= couponExistErr %></span>
+              
+              </div>
+              <label for="exampleFormControlInput1" class="form-label"
+                  >Choose coupon type</label>
+              <div class="mb-4">
+                  <input onclick="changeType('Percentage')" class="me-2" id="type" name="CouponType" type="radio" value="Percentage" checked><label class="form-label" for="">Percentage</label><br>
+                  <input onclick="changeType('Amount')" class="me-2" id="type" name="CouponType" type="radio" value="Amount"><label class="form-label" for="">Amount</label>
+              </div>
+              <div>
+                <label for="exampleFormControlInput1" id="typeAmount" hidden class="form-label">CUT-OFF Amount</label>
+                <label for="exampleFormControlInput1" id="typePercentage" class="form-label">CUT-OFF Percentage</label>
+              
+              <input
+                name="CutOff"
+                type="number"
+                class="form-control"
+                id="CutOffInput"
+                placeholder=""
+              />
+            </div>
+            <p id="cutOffError" class="text-danger mt-2"></p>
+            <div id="Min-Amount" class="mt-4">
+              <label for="exampleFormControlInput1" class="form-label">Min. Amount of Cart</label>
+              
+              <input
+                name="minAmount"
+                type="number"
+                class="form-control"
+                id="minAmountInput"
+                placeholder=""
+              />
+            </div>
+            <div id="Max-Amount" class="mt-4">
+              <label for="exampleFormControlInput1" class="form-label">Max. Redeem Amount</label>
+              
+              <input
+                name="maxAmount"
+                type="number"
+                class="form-control"
+                id="maxAmountInput"
+                placeholder=""
+              />
+            </div>
+            <div id="generateCount" class="mt-4">
+              <label for="exampleFormControlInput1" class="form-label">No. of coupons to genetate</label>
+              
+              <input
+                name="generateCount"
+                type="number"
+                class="form-control"
+                id="generateCountInput"
+                placeholder=""
+              />
+            </div>
+            <div class="mt-4">
+              <label class="form-label me-4" for="expireDate">Valid upto </label><input type="date" id="expireDate" name="expireDate">
+            </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col me-4 col-md-auto d-flex align-items-end justify-content-end">
+            <div class="btn-group ms-1 w-100 w-md-auto">
+              <button
+                type="submit"
+                class="btn btn-outline-primary btn-icon btn-icon-start w-100"
+              >
+                <i data-acorn-icon="save"></i>
+                <span>Save</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function validate(){
+
+    let Code = document.getElementById('CodeInput').value
+    let cutOff = document.getElementById('CutOffInput').value
+  
+    if (Code == "") {
+      document.getElementById('CodeError').innerHTML='Fill This Field'
+      valid1=false
+    }else if(Code.length<3){
+      document.getElementById('CodeError').innerHTML='Atleast 3 characters required'
+      valid1=false
+    }else{
+      document.getElementById('CodeError').innerHTML=''
+      valid1=true
+    }
+  
+    if(cutOff==''){
+      document.getElementById('cutOffError').innerHTML='Fill This Field'
+      valid6=false
+    }else{
+      document.getElementById('cutOffError').innerHTML=''
+      valid6=true
+    }
+  
+    
+  
+    if(valid1&&valid6){
+      return true
+    }else{
+      return false
+    }
+    }
+
+    function changeType(type){
+      if(type == 'Amount'){
+        document.getElementById('typeAmount').hidden=false
+        document.getElementById('typePercentage').hidden=true
+      }else if(type == 'Percentage'){
+        document.getElementById('typeAmount').hidden=true
+        document.getElementById('typePercentage').hidden=false
+      }
+    }
+
+  </script>
+
+<%- include('includes/footer') %>

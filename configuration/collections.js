@@ -10,4 +10,6 @@ module.exports={
     BannerCollection : "Banners",
     CartCollection : "Carts",
     WishlistCollection : "Wishlists",
+    AddressCollection : "Address",
+    BannerCollection: "Banners"
 }

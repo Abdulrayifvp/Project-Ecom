@@ -5,6 +5,7 @@ const multer = require('../middlewares/multer')
 const checkLoggedIn = require('../middlewares/adminLoggedInCheck')
 const ProductUpload = multer.upload('productImages')
 const CategoryUpload = multer.upload('categoryImages')
+const BannerUpload = multer.upload('BannerImages')
 
 
 router.get('/',checkLoggedIn,adminControl.getDashboard)
@@ -30,6 +31,18 @@ router.get('/deleteCategory',checkLoggedIn,adminControl.getDeleteCategory)
 router.get('/editCategory',checkLoggedIn,adminControl.getEditCategory)
 router.post('/editCategory',checkLoggedIn,adminControl.postEditCategory)
 router.get('/logout',checkLoggedIn,adminControl.getAdminLogout)
+router.get('/banners',checkLoggedIn,adminControl.getBannerList)
+router.get('/addBanner',checkLoggedIn,adminControl.getAddBanner)
+router.post('/addBanner',checkLoggedIn,BannerUpload.single('img'),adminControl.postAddBanner)
+router.get('/removeBanner',checkLoggedIn,adminControl.getRemoveBanner)
+router.get('/couponList',checkLoggedIn,adminControl.getCouponList)
+router.get('/addCoupon',checkLoggedIn,adminControl.getAddCoupon)
+router.post('/addCoupon',checkLoggedIn,adminControl.postAddCoupon)
+router.get('/couponActivate',checkLoggedIn,adminControl.couponActivate)
+router.get('/couponBlock',checkLoggedIn,adminControl.couponBlock)
+router.get('/sales',checkLoggedIn,adminControl.getSales)
+router.post('/getSalesReport',checkLoggedIn,adminControl.getSalesReport)
+
 
 
 module.exports = router

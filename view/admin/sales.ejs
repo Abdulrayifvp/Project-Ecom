@@ -1,0 +1,241 @@
+<%- include('./includes/header') %> <%- include('./includes/nav') %>
+
+<main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a
+                href="#"
+                class="muted-link pb-1 d-inline-block breadcrumb-back"
+              >
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Sales Report</h1>
+            </div>
+          </div>
+          
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+          <div
+            class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground"
+          >
+            <!-- <input class="form-control" placeholder="Search" /> -->
+            <span class="search-magnifier-icon">
+              <!-- <i data-acorn-icon="search"></i> -->
+            </span>
+            <span class="search-delete-icon d-none">
+              <i data-acorn-icon="close"></i>
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1">
+          <div class="d-inline-block">
+            <button
+              class="btn p-0"
+              data-bs-toggle="dropdown"
+              type="button"
+              data-bs-offset="0,3"
+            >
+              <span
+                class="btn btn-icon btn-icon-only btn-foreground-alternate shadow dropdown"
+                data-bs-delay="0"
+                data-bs-placement="top"
+                data-bs-toggle="tooltip"
+                title="Export"
+              >
+                <i data-acorn-icon="download"></i>
+              </span>
+            </button>
+            <div class="dropdown-menu shadow dropdown-menu-end">
+              <button class="dropdown-item export-copy" type="button" onclick="Export()">
+                PDF
+              </button>
+              <button class="dropdown-item export-excel" type="button" onclick="ExportToExcel('xlsx')">
+                Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div
+          class="dropdown-as-select me-3"
+          data-setactive="false"
+          data-childselector="span"
+        >
+          <a
+            class="pe-0 pt-0 align-top lh-1 dropdown-toggle"
+            href="#"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-haspopup="true"
+          >
+            <span class="small-title"></span>
+          </a>
+          <div class="dropdown-menu font-standard">
+            <div class="nav flex-column" role="tablist">
+              <a
+                class="active dropdown-item text-medium"
+                href="#"
+                aria-selected="true"
+                role="tab"
+                onclick="setTimePeriod('All')"
+                >All</a
+              >
+              <a
+                class="dropdown-item text-medium"
+                href="#"
+                aria-selected="true"
+                role="tab"
+                onclick="setTimePeriod('Today')"
+                >Today's</a
+              >
+              <a
+                class="dropdown-item text-medium"
+                href="#"
+                aria-selected="false"
+                role="tab"
+                onclick="setTimePeriod('Weekly')"
+                >Weekly</a
+              >
+              <a
+                class="dropdown-item text-medium"
+                href="#"
+                aria-selected="false"
+                role="tab"
+                onclick="setTimePeriod('Monthly')"
+                >Monthly</a
+              >
+              <a
+                class="dropdown-item text-medium"
+                href="#"
+                aria-selected="false"
+                role="tab"
+                onclick="setTimePeriod('Yearly')"
+                >Yearly</a
+              >
+            </div>
+          </div>
+        </div>
+        <h2 class="small-title">Sales Report</h2>
+      </div>
+      <div class="row" id="makepdf">
+        <table id="table">
+          
+            <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Costomer Name</th>
+                  <th>Amount(Rs.)</th>
+                  <th>Status</th>
+              </tr>
+          </thead>
+          <tbody id="tableContainer">
+            <% for(order of orders){ %>
+              <tr>
+                
+                  <td><%=order.Date.toLocaleDateString()%></td>
+                  <td><%=order.Date.toLocaleTimeString()%></td>
+                  <td><%=order.Address.firstName%> <%=order.Address.secondName%></td>
+                  <td><%=order.Subtotal%></td>
+                  <td><%=order.orderStatus%></td>
+                
+              </tr>
+              <% } %>
+          </tbody>
+         
+          
+      </table>
+          
+      </div>
+      
+    </div>
+  </main>
+  <script type="text/javascript">
+    $(document).ready(function () {
+        $('#table').dataTable();
+    });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script type="text/javascript">
+        function Export() {
+            html2canvas(document.getElementById('table'), {
+                onrendered: function (canvas) {
+                    var data = canvas.toDataURL();
+                    var docDefinition = {
+                        content: [{
+                            image: data,
+                            width: 500
+                        }]
+                    };
+                    pdfMake.createPdf(docDefinition).download("Sales-Report"+Date.now()+".pdf");
+                }
+            });
+        }
+    </script>
+
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+<script>
+  function ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('table');
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         XLSX.writeFile(wb, fn || ("Sales-Report"+Date.now()+"." + (type || 'xlsx')));
+    }
+</script>
+<script>
+  function setTimePeriod(timePeriod){
+    $.ajax({
+      url:'/admin/getSalesReport',
+      method:'post',
+      data:{timePeriod},
+      success:(response)=>{
+        
+        let tableContainer = document.getElementById('tableContainer')
+        let html = null
+        orders = response.order
+        orders.forEach(element => {
+         if(html==null){
+          html=`<tr>
+              
+              <td>${element.Date}</td>
+              <td>${element.Time}</td>
+              <td>${element.Address.firstName} ${element.Address.secondName}</td>
+              <td>${element.Subtotal}</td>
+              <td>${element.orderStatus}</td>
+            
+          </tr>`
+         }else{
+          html+=`<tr>
+              
+              <td>${element.Date}</td>
+              <td>${element.Time}</td>
+              <td>${element.Address.firstName} ${element.Address.secondName}</td>
+              <td>${element.Subtotal}</td>
+              <td>${element.orderStatus}</td>
+            
+          </tr>`
+         } 
+        })
+
+        tableContainer.innerHTML=html
+      } 
+
+    })
+  }
+</script>
+  
+<%- include('./includes/footer') %>

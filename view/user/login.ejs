@@ -10,14 +10,14 @@
                 <div class="login_form_inner">
                     <h3>Log in to enter</h3>
                     <h6 class="text-danger"><%= errMsg %></h6>
-                    <form class="row login_form" action="/login" method="post" id="contactForm" novalidate="novalidate">
+                    <form class="row login_form" action="/login" method="post" onsubmit="return fieldvalidation()" id="contactForm" novalidate="novalidate">
                         
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
                             <span class="float-right text-danger" id="emailErr"></span>
                         </div>
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="pass" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+                            <input type="password" class="form-control" id="pass" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
                             <span class="float-right text-danger" id="passErr"></span>
                         </div>
                         <div class="col-md-12 form-group">
@@ -44,13 +44,25 @@
 
 <script>
     function fieldvalidation() {
-        if (document.getElementById('pass').value == "") {
-            document.getElementById('passErr').innerHTML="required"
+        if (document.getElementById('pass').value == ""){
+            document.getElementById('passErr').innerHTML="Fill this field"
+            valid1=false
+        }else{
+            document.getElementById('passErr').innerHTML=""
+            valid1=true
         }
-        if(document.getElementById('email').value ==""){
-            document.getElementById('emailErr').innerHTML='required'
+        if(document.getElementById('email').value == ""){
+            document.getElementById('emailErr').innerHTML='Fill this field'
+            valid2=false
+        }else{
+            document.getElementById('emailErr').innerHTML=''
+            valid2=true
         }
-         
+         if(valid1&&valid2){
+            return true
+         }else{
+            return false
+         }
     }
 </script>
     <%- include('./includes/footer.ejs') %>

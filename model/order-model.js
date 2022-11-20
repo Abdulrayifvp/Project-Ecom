@@ -4,13 +4,9 @@ const Collections = require('../configuration/collections')
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
-    Date : {
-        type : String,
-        required : true
-    },
-    Time : {
-        type : String,
-        required : true
+    Date : { 
+        type : Date, 
+        default: Date.now 
     },
     userId : {
         type :String,

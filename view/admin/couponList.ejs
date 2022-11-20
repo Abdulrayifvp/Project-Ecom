@@ -1,0 +1,89 @@
+<%- include('includes/header') %> 
+<%- include('includes/nav') %>
+
+<main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a
+                href="#"
+                class="muted-link pb-1 d-inline-block breadcrumb-back"
+              >
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Coupon List</h1>
+            </div>
+          </div>
+          <div class="w-100 d-md-none"></div>
+        <div
+          class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3"
+        >
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+            onclick="window.location.href='/admin/addCoupon'"
+          >
+            <i data-acorn-icon="plus"></i>
+            <span>Add Coupon</span>
+          </button>
+        </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+          <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+            <input class="form-control" placeholder="Search" />
+            <span class="search-magnifier-icon">
+              <i data-acorn-icon="search"></i>
+            </span>
+            <span class="search-delete-icon d-none">
+              <i data-acorn-icon="close"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    <table id="#Table" class="table">
+      <thead>
+        <tr>
+          <th scope="col">CODE</th>
+          <th scope="col">CUT-OFF</th>
+          <th scope="col">Coupon left</th>
+          <th scope="col">Validity</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (Coupon of Coupons) { %>
+            <tr class="clickable" onclick="window.location=''">
+                <td class="align-middle"><%=Coupon.CODE%></td>
+                <% if(Coupon.couponType=='Percentage') {%>
+                <td class="align-middle"><%=Coupon.cutOff%>%</td>
+                <% }else{ %>
+                <td class="align-middle">Rs.<%=Coupon.cutOff%></td>
+                <% } %>
+                
+                <td><%=Coupon.generateCount%></td>
+                <% if(Coupon.expireDate < Date.now()) { %>
+                  <td class="text-danger">Expired</td>
+                <% }else{ %>
+                  <td class="text-primary"><%=Coupon.expireDate.toLocaleDateString()%></td>
+                <%  } %>
+                <td class="align-middle">
+                  <% if (Coupon.status=='BLOCKED') { %>
+                      <a class="btn btn-outline-primary" href="/admin/couponActivate/?id=<%=Coupon._id%>">Activate</a>
+                      <a class="btn btn-danger"  href="">Blocked</a>
+                  <% }else{ %>
+                      <a class="btn btn-primary" href="">Active</a>
+                      <a class="btn btn-outline-danger" href="/admin/couponBlock/?id=<%=Coupon._id%>">Block</a>
+                  <% } %>
+              </td>
+            </tr>
+        <% } %>   
+      </tbody>
+    </table>
+  </main>
+
+<%- include('includes/footer') %>

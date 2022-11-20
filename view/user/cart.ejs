@@ -1,61 +1,92 @@
-<%- include('./includes/header') %>
-<%- include('./includes/navigation') %>
+<%- include('./includes/header') %> <%- include('./includes/navigation') %>
 
 <!--================Cart Area =================-->
 <section class="cart_area mt-5">
-    <div class="container">
-        <h2>Cart</h2>
-        <div class="cart_inner">
-            <div class="table-responsive">
-                <% if(Cart) { %>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Remove</th>
-                            </tr> 
-                        </thead>
-                        <tbody>
-                            <% for (Product of Cart) { %>
-                                <tr>
-                                    <td>
-                                        <div class="media">
-                                            <div class="d-flex">
-                                                <img height="100px" width="100px" src="../productImages/<%=Product.Images[0]%>" alt="">
-                                            </div>
-                                            <div class="media-body">
-                                                <p><%=Product.ProductName%></p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <h5>Rs.<span id="Price<%=Product.ProductId%>"><%=Product.Price%></span></h5>
-                                    </td>
-                                    <td>
-                                        <div class="product_count">
-                                            <input type="text" name="qty" id="sst<%=Product.ProductId%>" maxlength="12" value="<%=Product.Quantity %>" title="Quantity:"
-                                                class="input-text qty">
-                                            <button onclick="var result = document.getElementById('sst<%=Product.ProductId%>');QuantityInc('<%=Product.ProductId%>'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                                class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                            <button onclick="var result = document.getElementById('sst<%=Product.ProductId%>');QuantityDec('<%=Product.ProductId%>',result.value); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 ) result.value--;return false;"
-                                                class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <h5>Rs.<span id="totalPrice<%=Product.ProductId%>"><%=Product.Price*Product.Quantity %></span></h5>
-                                    </td>
-                                    <td>
-                                        <a class="genric-btn danger-border" href="/removeCartItem/?ProductId=<%=Product.ProductId%>">Remove</a>
-                                    </td>
-                                    
-                                </tr>
-                            <% } %>
-                            
-                            
-                            <!-- <tr class="bottom_button">
+  <div class="container">
+    <h2>Cart</h2>
+    <div class="cart_inner">
+      <div class="table-responsive">
+        <% if(Cart) { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+              <th scope="col">Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (Product of Cart) { %>
+            <tr>
+              <td>
+                <div class="media">
+                  <div class="d-flex">
+                    <img
+                      height="100px"
+                      width="100px"
+                      src="../productImages/<%=Product.Images[0]%>"
+                      alt=""
+                    />
+                  </div>
+                  <div class="media-body">
+                    <p><%=Product.ProductName%></p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h5>
+                  Rs.<span id="Price<%=Product.ProductId%>"
+                    ><%=Product.Price%></span
+                  >
+                </h5>
+              </td>
+              <td>
+                <div class="product_count">
+                  <input
+                    type="text"
+                    name="qty"
+                    id="sst<%=Product.ProductId%>"
+                    maxlength="12"
+                    value="<%=Product.Quantity %>"
+                    title="Quantity:"
+                    class="input-text qty"
+                  />
+                  <button
+                    onclick="var result = document.getElementById('sst<%=Product.ProductId%>');QuantityInc('<%=Product.ProductId%>'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                    class="increase items-count"
+                    type="button"
+                  >
+                    <i class="lnr lnr-chevron-up"></i>
+                  </button>
+                  <button
+                    onclick="var result = document.getElementById('sst<%=Product.ProductId%>');QuantityDec('<%=Product.ProductId%>',result.value); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 1 ) result.value--;return false;"
+                    class="reduced items-count"
+                    type="button"
+                  >
+                    <i class="lnr lnr-chevron-down"></i>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <h5>
+                  Rs.<span id="totalPrice<%=Product.ProductId%>"
+                    ><%=Product.Price*Product.Quantity %></span
+                  >
+                </h5>
+              </td>
+              <td>
+                <a
+                  class="genric-btn danger-border"
+                  href="/removeCartItem/?ProductId=<%=Product.ProductId%>"
+                  >Remove</a
+                >
+              </td>
+            </tr>
+            <% } %>
+
+            <!-- <tr class="bottom_button">
                                 
                                 <td>
                                     <a class="gray_btn" href="#">Update Cart</a>
@@ -77,25 +108,19 @@
                                     
                                 </td>
                             </tr> -->
-                            <tr>
-                                <td>
-    
-                                </td>
-                                
-                                <td>
-    
-                                </td>
-                                <td>
-                                    <h5>Subtotal</h5>
-                                </td>
-                                <td>
-                                    <h5>Rs.<span id="subtotal" ><%=Subtotal%></span></h5>
-                                </td>
-                                <td>
-    
-                                </td>
-                            </tr>
-                            <!-- <tr class="shipping_area">
+            <tr>
+              <td><p class="text-danger" id="stockCheck"></p></td>
+
+              <td></td>
+              <td>
+                <h5>Subtotal</h5>
+              </td>
+              <td>
+                <h5>Rs.<span id="subtotal"><%=Subtotal%></span></h5>
+              </td>
+              <td></td>
+            </tr>
+            <!-- <tr class="shipping_area">
                                 <td>
     
                                 </td>
@@ -132,35 +157,58 @@
                                     </div>
                                 </td>
                             </tr> -->
-                            <tr class="out_button_area">
-                                <td>
-    
-                                </td>
-                                <td>
-    
-                                </td>
-                                <td>
-    
-                                </td>
-                                <td>
-    
-                                </td>
-                                <td>
-                                    <div class="checkout_btn_inner d-flex align-items-center">
-                                        <a class="gray_btn" href="/">Continue Shopping</a>
-                                        <a class="primary-btn" href="/checkout">Proceed to checkout</a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-             <% }else{ %>
-                <p>Cart is Empty</p>
-             <% } %>
-            </div>
-        </div>
+            <tr class="out_button_area">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="checkout_btn_inner d-flex align-items-center">
+                  <a class="gray_btn" href="/">Continue Shopping</a>
+                  <button class="primary-btn" onclick="checkStock()">
+                    Proceed to checkout
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <% }else{ %>
+        <p>Cart is Empty</p>
+        <% } %>
+      </div>
     </div>
+  </div>
 </section>
 <!--================End Cart Area =================-->
+<script>
+  function checkStock() {
+    console.log("ok 1");
+    $.ajax({
+      url: "/checkStock",
+      method: "get",
+      success: (response) => {
+        console.log("ok 2");
+        if(response.result){
+            alerts = response.result.results;
+        console.log(alerts);
+        if (alerts.length != 0) {
+          
+          let text = ''
+          for(i=0;i<alerts.length;i++){
+          text+= ` ${alerts[i]} <br>`
+          }
+          document.getElementById('stockCheck').innerHTML=text
+        }
+        }
+        else if(response.state==true){
+            console.log('ok 3');
+            window.location.href = '/checkout'
+            
+        }
+      },
+    });
+  }
+</script>
 
 <%- include('./includes/footer') %>

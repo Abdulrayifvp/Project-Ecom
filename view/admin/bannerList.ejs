@@ -1,0 +1,69 @@
+<%- include('includes/header') %> 
+<%- include('includes/nav') %>
+  <main>
+    <div class="container">
+      <div class="page-title-container">
+        <div class="row">
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a
+                href="#"
+                class="muted-link pb-1 d-inline-block breadcrumb-back"
+              >
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Banner List</h1>
+            </div>
+          </div>
+          <div class="w-100 d-md-none"></div>
+        <div
+          class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3"
+        >
+          <button
+            type="button"
+            class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto"
+            onclick="window.location.href='/admin/addBanner'"
+          >
+            <i data-acorn-icon="plus"></i>
+            <span>Add Banner</span>
+          </button>
+        </div>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+          <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+            <input class="form-control" placeholder="Search" />
+            <span class="search-magnifier-icon">
+              <i data-acorn-icon="search"></i>
+            </span>
+            <span class="search-delete-icon d-none">
+              <i data-acorn-icon="close"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    <table id="#Table" class="table">
+      <thead>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(Banner of Banners) { %>
+            <tr class="clickable" onclick="window.location=''">
+                <td><img width="70px" src="/BannerImages/<%=Banner.Image%>" alt="" srcset=""></td>
+                <td class="align-middle"><%=Banner.Title%></td>
+                <td class="align-middle"><%=Banner.Description%></td>
+                <td class="align-middle"><a href="/admin/removeBanner/?id=<%=Banner._id%>" class="btn btn-primary">Remove</a></td>
+            </tr>
+        <% } %>
+        
+      </tbody>
+    </table>
+  </main>
+<%- include('includes/footer') %>
