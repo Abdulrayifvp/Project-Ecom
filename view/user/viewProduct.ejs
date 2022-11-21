@@ -32,7 +32,7 @@
                     
                     <pre style="font-family: Arial, Helvetica, sans-serif; font-size: small;"><%=Product.Description%></pre>
                     <div class="product_count mt-4">
-                    <form action="/addToCart/?productId=<%=Product.id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>" method="post">
+                    <form action="/addToCart/?productId=<%=Product._id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>" method="post">
 
                         
                         <label for="qty">Quantity:</label>
@@ -45,7 +45,7 @@
                     
                     <div class="card_area d-flex align-items-center">
                         <button class="primary-btn">Add to Cart</button>
-                        <a class="icon_btn" href="/addToWishlist/?productId=<%=Product.id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>"><i class="lnr lnr lnr-heart"></i></a>
+                        <a class="icon_btn" href="/addToWishlist/?productId=<%=Product._id%>&productName=<%=Product.Name%>&price=<%=Product.SellingPrize%>&images=<%=Product.Images[0]%>"><i class="lnr lnr lnr-heart"></i></a>
                     </div>
                     </form>
                 </div>

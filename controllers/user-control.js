@@ -212,7 +212,7 @@ module.exports = {
         
         if (Product) {
           let Description = Product.Description.replace(/'\n'/g,'<br>')
-          console.log(Description);
+          
           let ProductDetails = {
           _id: Product._id,
           Name: Product.Name,
@@ -225,7 +225,7 @@ module.exports = {
           Colour: Product.Colour,
           Delete: Product.Delete,
         };
-          console.log(ProductDetails);
+          
           res.render("user/viewProduct", { session: req.session,Product: ProductDetails });
         } else {
           res.render("error");
@@ -589,6 +589,7 @@ module.exports = {
             Products: cart.Products,
             Subtotal: subtotal,
             Address: address,
+            PaymentMethod:'PAY ON DELIVERY',
             paymentStatus: "Payment Pending",
             orderStatus: "Order Placed",
           });
@@ -609,6 +610,7 @@ module.exports = {
             Products: cart.Products,
             Subtotal: subtotal,
             Address: address,
+            PaymentMethod:'NET BANKING',
             paymentStatus: "Payment Pending",
             orderStatus: "Order Pending",
           });

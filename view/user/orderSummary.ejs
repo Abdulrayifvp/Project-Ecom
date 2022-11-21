@@ -5,11 +5,11 @@
     <h2>Order Summary</h2>
     <div class="row mt-5">
       <div class="col-6">
-        <p>Date : <%=Order.Date%></p>
-        <p>Time : <%=Order.Time%></p>
+        <p>Date : <%=Order.Date.toLocaleDateString()%></p>
+        <p>Time : <%=Order.Date.toLocaleTimeString()%></p>
         <p>Order ID : <%=Order._id%></p>
         <p>Order Status : <%=Order.orderStatus%></p>
-        <p>Payment Method : <%=Order.Address.paymentMethod%></p>
+        <p>Payment Method : <%=Order.PaymentMethod%></p>
       </div>
       <div class="col-6">
         <h6 class="mb-3">Delivery Address</h6>

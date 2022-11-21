@@ -12,28 +12,47 @@
             <h3>Delivery Address</h3>
 
             <div class="row">
-              <% for (i=0;i < addresses.length ;i++) { %>
-              <div class="col-sm-6 mb-3">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">
-                      <%=addresses[i].firstName%> <%=addresses[i].secondName%>
-                    </h5>
-                    <p class="card-text">
-                      <%=addresses[i].houseName%>, <%=addresses[i].address%>,
-                      <%=addresses[i].city%>, <%=addresses[i].district%> ,
-                      <%=addresses[i].state%>, <%=addresses[i].country%> ,
-                      <%=addresses[i].pincode%>
-                    </p>
-                    <% if(i==0){ %>
-                      <input type="radio" name="Address" id="<%=addresses[i]._id%>" value="<%=addresses[i]._id%>" checked />
-                    <% }else{ %>
-                      <input type="radio" name="Address" id="<%=addresses[i]._id%>" value="<%=addresses[i]._id%>" />
-                    <% } %>
+              <% if (addresses.length==0){ %>
+              <h1 id="addressCount" hidden>0</h1>
+              <% } else { %>
+              <h1 id="addressCount" hidden><%=addresses.length%></h1>
+                <% for (i=0;i < addresses.length ;i++) { %>
+                  <div class="col-sm-6 mb-3">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">
+                          <%=addresses[i].firstName%> <%=addresses[i].secondName%>
+                        </h5>
+                        <p class="card-text">
+                          <%=addresses[i].houseName%>, <%=addresses[i].address%>,
+                          <%=addresses[i].city%>, <%=addresses[i].district%> ,
+                          <%=addresses[i].state%>, <%=addresses[i].country%> ,
+                          <%=addresses[i].pincode%>
+                        </p>
+                        <% if(i==0){ %>
+                        <input
+                          type="radio"
+                          class="addressSelector"
+                          name="Address"
+                          id="<%=addresses[i]._id%>"
+                          value="<%=addresses[i]._id%>"
+                          checked
+                        />
+                        <% }else{ %>
+                        <input
+                          type="radio"
+                          class="addressSelector"
+                          name="Address"
+                          id="<%=addresses[i]._id%>"
+                          value="<%=addresses[i]._id%>"
+                        />
+                        <% } %>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
+                  <% } %>
               <% } %>
+              
               <div class="col-sm-6">
                 <div class="card">
                   <a href="/addAddress" class="btn btn-primary">Add New</a>
@@ -159,7 +178,7 @@
 <script>
   function applyCoupon(subtotal) {
     let CouponCode = document.getElementById("couponInput").value;
-    let Subtotal = subtotal
+    let Subtotal = subtotal;
     if (CouponCode == "") {
       document.getElementById("CouponError").style.color = "red";
       document.getElementById("CouponError").innerHTML = "Enter a Coupon Code";
@@ -169,19 +188,21 @@
         method: "post",
         data: {
           CouponCode,
-          Subtotal
+          Subtotal,
         },
         success: (response) => {
-          if (response.status==true) {
+          if (response.status == true) {
             document.getElementById("CouponError").style.color = "green";
             document.getElementById("CouponError").innerHTML = "Coupon Applied";
             document.getElementById("discountAmount").innerHTML =
               "Rs." + response.CutOff;
-            document.getElementById("grandTotalAmount").innerHTML =response.grandtotal
-            document.getElementById('applyBtn').disabled = true
+            document.getElementById("grandTotalAmount").innerHTML =
+              response.grandtotal;
+            document.getElementById("applyBtn").disabled = true;
           } else {
             document.getElementById("CouponError").style.color = "red";
-            document.getElementById("CouponError").innerHTML = response.couponMsg;
+            document.getElementById("CouponError").innerHTML =
+              response.couponMsg;
           }
         },
       });
@@ -192,75 +213,82 @@
 <%- include('./includes/footer') %>
 
 <script>
-    
-    
+  
   $("#checkout-form").submit((e) => {
     e.preventDefault();
-    let grandTotalAmount = document.getElementById('grandTotalAmount').innerHTML
-    console.log(grandTotalAmount); 
-    $.ajax({
-      url: "/placeOrder/?cartId=<%=Cart[0]._id%>&subtotal="+grandTotalAmount,
-      method: "post",
-      data: $("#checkout-form").serialize(),
-      success: (response) => {
-        if (response.payOnDelivery) {
-          Swal.fire({
-            title: "Order Placed Successfully",
-            icon: "success",
-            showDenyButton: true,
-            confirmButtonText: "View Order",
-            denyButtonText: `Continue Shopping`,
-            toast: true,
-          }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-              location.href = "/orders";
-            } else if (result.isDenied) {
-              location.href = "/";
-            }
-          });
-        } else if (response.netBanking) {
-          let razorpayOrderData = response.razorpayOrderData;
-          let userOrderData = response.userOrderData;
+    let addressCount = document.getElementById('addressCount').innerHTML
+    if(addressCount!=0){
+      let grandTotalAmount =
+        document.getElementById("grandTotalAmount").innerHTML;
+      console.log(grandTotalAmount);
+      $.ajax({
+        url:
+          "/placeOrder/?cartId=<%=Cart[0]._id%>&subtotal=" + grandTotalAmount,
+        method: "post",
+        data: $("#checkout-form").serialize(),
+        success: (response) => {
+          if (response.payOnDelivery) {
+            Swal.fire({
+              title: "Order Placed Successfully",
+              icon: "success",
+              showDenyButton: true,
+              confirmButtonText: "View Order",
+              denyButtonText: `Continue Shopping`,
+              toast: true,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                location.href = "/orders";
+              } else if (result.isDenied) {
+                location.href = "/";
+              }
+            });
+          } else if (response.netBanking) {
+            let razorpayOrderData = response.razorpayOrderData;
+            let userOrderData = response.userOrderData;
 
-          var options = {
-            key: "rzp_test_ZMiXSevX9pibAE", // Enter the Key ID generated from the Dashboard
-            amount: response.razorpayOrderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            currency: "INR",
-            name: "Untitled Legacy",
-            description: "Test Transaction",
-            image: "https://example.com/your_logo",
-            order_id: response.razorpayOrderData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            handler: function (response) {
-              console.log(response);
-              // alert(response.razorpay_payment_id);
-              // alert(response.razorpay_order_id);
-              // alert(response.razorpay_signature)
-              verifyPayment(response, razorpayOrderData, userOrderData);
-            },
+            var options = {
+              key: "rzp_test_ZMiXSevX9pibAE", // Enter the Key ID generated from the Dashboard
+              amount: response.razorpayOrderData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+              currency: "INR",
+              name: "Untitled Legacy",
+              description: "Test Transaction",
+              image: "https://example.com/your_logo",
+              order_id: response.razorpayOrderData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+              handler: function (response) {
+                console.log(response);
+                // alert(response.razorpay_payment_id);
+                // alert(response.razorpay_order_id);
+                // alert(response.razorpay_signature)
+                verifyPayment(response, razorpayOrderData, userOrderData);
+              },
 
-            prefill: {
-              name: "Gaurav Kumar",
-              email: "gaurav.kumar@example.com",
-              contact: "9999999999",
-            },
-            notes: {
-              address: "Razorpay Corporate Office",
-            },
-            theme: {
-              color: "#3399cc",
-            },
-          };
+              prefill: {
+                name: "Gaurav Kumar",
+                email: "gaurav.kumar@example.com",
+                contact: "9999999999",
+              },
+              notes: {
+                address: "Razorpay Corporate Office",
+              },
+              theme: {
+                color: "#3399cc",
+              },
+            };
 
-          var rzp1 = new Razorpay(options);
+            var rzp1 = new Razorpay(options);
 
-          rzp1.on("payment.failed", function (response) {
-            paymentFailed(response);
-          });
-          rzp1.open();
-        }
-      },
-    });
+            rzp1.on("payment.failed", function (response) {
+              paymentFailed(response);
+            });
+            rzp1.open();
+          }
+        },
+      });
+    }else{
+      Swal.fire('add an address before checkout')
+    }
+      
   });
   function paymentFailed(response) {
     $.ajax({

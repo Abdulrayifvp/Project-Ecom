@@ -18,6 +18,10 @@ const orderSchema = new Schema({
         required : true
     },
     Address : {},
+    PaymentMethod : {
+        type : String,
+        required : true
+    },
     paymentStatus : {
         type : String,
         required : true

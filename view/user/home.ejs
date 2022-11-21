@@ -13,7 +13,7 @@
                                         <h1><%=Banner.Title%></h1>
                                         <p><%=Banner.Description%></p>
                                         <div class="add-bag d-flex align-items-center">
-                                            <a class="add-btn" href=""><span class="lnr lnr-cross"></span></a>
+                                            <a class="add-btn" href="/shop"><span class="lnr lnr-cross"></span></a>
                                             <span class="add-text text-uppercase">Add to Bag</span>
                                         </div>
                                     </div>
@@ -50,9 +50,7 @@
                 <div class="col-lg-6 text-center">
                     <div class="section-title">
                         <h1>Latest Products</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore
-                            magna aliqua.</p>
+                        <p>Good SHOES take you Good places !</p>
                     </div>
                 </div>
             </div>
@@ -61,7 +59,7 @@
                 <% for ( Product of Products) { %>
                     <div class="col-lg-3 col-md-6">
                         <div class="single-product">
-                            <img class="img-fluid" style="height: 350px;" src="../productImages/<%=Product.Images[0]%>" alt="">
+                            <img class="img-fluid" src="../productImages/<%=Product.Images[0]%>" alt="">
                             <div class="product-details">
                                 <h6><%=Product.Name%></h6>
                                 <div class="price">
