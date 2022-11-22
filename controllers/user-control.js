@@ -685,7 +685,7 @@ module.exports = {
   getMyOrders: (req, res) => {
     try {
       orderSchema
-        .find({ Cart: req.session.userData.id })
+        .find({userId: req.session.userData._id })
         .sort({ Date: -1 })
         .then((result) => {
           res.render("user/myOrders", { session: req.session, Orders: result });
