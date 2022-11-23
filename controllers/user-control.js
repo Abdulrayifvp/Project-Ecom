@@ -207,9 +207,9 @@ module.exports = {
 
   //get view product page
   getViewProduct: async (req, res,next) => {
-    try {
+   try {  
       productSchema.findOne({ _id: req.query.id }).then((Product) => {
-        
+       
         if (Product) {
           let Description = Product.Description.replace(/'\n'/g,'<br>')
           
@@ -227,13 +227,16 @@ module.exports = {
         };
           
           res.render("user/viewProduct", { session: req.session,Product: ProductDetails });
+          console.log(Product);
         } else {
           res.render("error");
         }
-      });
+      }).catch((err)=>{
+        next(err)
+      })
     } catch (err) {
       console.log(err);
-      next(err)
+
     }
   },
 
