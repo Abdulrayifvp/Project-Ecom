@@ -206,7 +206,7 @@ module.exports = {
   },
 
   //get view product page
-  getViewProduct: async (req, res) => {
+  getViewProduct: async (req, res,next) => {
     try {
       productSchema.findOne({ _id: req.query.id }).then((Product) => {
         
@@ -233,6 +233,7 @@ module.exports = {
       });
     } catch (err) {
       console.log(err);
+      next(err)
     }
   },
 
@@ -272,58 +273,7 @@ module.exports = {
     }
   },
 
-  //add product to cart from product view page
-  postAddToCart: async (req, res) => {
-    try {
-      let userCart = await cartSchema.findOne({
-        userId: req.session.userData._id,
-      });
-      if (userCart) {
-        let ProductIndex = userCart.Products.findIndex(
-          (Product) => Product.ProductId == req.query.productId
-        );
-
-        if (ProductIndex > -1) {
-          let productItem = userCart.Products[ProductIndex];
-          userCart.Subtotal =
-            userCart.Subtotal - productItem.Price * productItem.Quantity;
-          productItem.Quantity = req.body.quantity;
-          userCart.Products[ProductIndex] = productItem;
-          userCart.Subtotal =
-            userCart.Subtotal + productItem.Price * productItem.Quantity;
-          userCart.save();
-        } else {
-          userCart.Products.push({
-            ProductId: req.query.productId,
-            Quantity: req.body.quantity,
-            Price: req.query.price,
-            Images: req.query.images,
-            ProductName: req.query.productName,
-          });
-          userCart.Subtotal =
-            userCart.Subtotal + req.query.price * req.body.quantity;
-          userCart.save();
-        }
-      } else {
-        const newCart = new cartSchema({
-          userId: req.session.userData._id,
-          Products: {
-            ProductId: req.query.productId,
-            Quantity: req.body.quantity,
-            Price: req.query.price,
-            Images: req.query.images,
-            ProductName: req.query.productName,
-          },
-          Subtotal: req.body.quantity * req.query.price,
-        });
-        newCart.save().then((result) => {});
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  },
-
-  // add product to cart from landing page
+  // add product to cart 
   getAddToCart: async (req, res) => {
     try {
       let userCart = await cartSchema.findOne({
@@ -335,38 +285,34 @@ module.exports = {
         );
 
         if (ProductIndex > -1) {
-          let productItem = userCart.Products[ProductIndex];
-          userCart.Subtotal =
-            userCart.Subtotal - productItem.Price * productItem.Quantity;
-          productItem.Quantity = 1;
-          userCart.Products[ProductIndex] = productItem;
-          userCart.Subtotal =
-            userCart.Subtotal + productItem.Price * productItem.Quantity;
-          userCart.save();
+          res.json({status:false})
         } else {
           userCart.Products.push({
             ProductId: req.query.productId,
-            Quantity: 1,
+            Quantity: req.query.quantity,
             Price: req.query.price,
             Images: req.query.images,
             ProductName: req.query.productName,
           });
-          userCart.Subtotal = userCart.Subtotal + req.query.price * 1;
+          userCart.Subtotal = userCart.Subtotal + req.query.price * req.query.quantity;
           userCart.save();
+          res.json({status:true})
         }
       } else {
         const newCart = new cartSchema({
           userId: req.session.userData._id,
           Products: {
             ProductId: req.query.productId,
-            Quantity: 1,
+            Quantity: req.query.quantity,
             Price: req.query.price,
             Images: req.query.images,
             ProductName: req.query.productName,
           },
-          Subtotal: 1 * req.query.price,
+          Subtotal: req.query.quantity * req.query.price,
         });
-        newCart.save().then((result) => {});
+        newCart.save()
+        res.json({status:true})
+
       }
     } catch (err) {
       console.log(err);
@@ -486,6 +432,9 @@ module.exports = {
             ProductName: req.query.productName,
           });
           userWishlist.save();
+          res.json({status:true})
+        }else{
+          res.json({status:false})
         }
       } else {
         const newWishlist = new WishlistSchema({
@@ -497,7 +446,8 @@ module.exports = {
             ProductName: req.query.productName,
           },
         });
-        newWishlist.save().then((result) => {});
+        newWishlist.save().then((result) => {})
+        res.json({status : true})
       }
     } catch (err) {
       console.log(err);
